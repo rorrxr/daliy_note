@@ -1,0 +1,358 @@
+240115 
+클래스와 객체
+
+193p 디자인 패턴 - 싱글톤 패턴
+
+디자인 패턴 (중요)
+
+참고자료
+한빛미디어 디자인패턴 : https://m.hanbit.co.kr/channel/category/category_view.html?cms_code=CMS8616098823
+디자인패턴/나무위키 : https://namu.wiki/w/%EB%94%94%EC%9E%90%EC%9D%B8%20%ED%8C%A8%ED%84%B4
+
+객체지향 언어
+: C++, C#, Java언어 가 있다.
+
+디자인 패턴 : 클래스를 설계하고, 상속관계를 구성.
+디자인 - 클래스라고 할 수 있다.
+
+예시) 손자병법 - 중국에서 전쟁 싸움 기술 (전략)들
+
+// 일반적인 클래스 : 클래스를 통하여 객체를 계속 생성할 수 있다.
+// 싱글톤 클래스 : 단 하나의 객체만 생성이 가능
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+// 파일 백업 github 오류
+https://somjang.tistory.com/entry/Git-rejected-master-master-non-fast-forward-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+7장 배열과 ArrayList
+199p 배열이란
+
+자바
+# 데이터타입 : 기억장소를 생성하는 기능.
+
+1) 기본 원시타입(primitive type) : 스택(Stack)영역만 사용
+- 8개
+정수형 : byte, short, char, int, long
+실수형 : float, double
+논리형 : boolean
+
+사용방법 : int a; float f;
+
+2) 참조타입 : 스택(Stack)영역과 힙(Heap)영역 2가지를 사용
+- 클래스, 배열, 열거형, 인터페이스
+
+클래스 사용법
+Person ps = new Person();
+Calender cal = Calender.getInstance(); //내부적으로는 new Calender()
+
+#배열 : 동일한 데이터타입으로 구성된 연속적인 기억장소를 하나로 관리
+배열은 참조타입이며, 객체이다. (암기)
+
+1) 기본원시타입 배열 : 값타일 배열
+
+
+2) 참조타입 배열 : 클래스 배열, 객체 배열
+
+
+
+class Person{
+	// 필드 : 힙영역에 new 키워드에서 의하여 생성
+	int a;
+	int b;
+	
+	public void methodA(){
+		// 스택영역 생성
+		int x;
+		int y;
+	}
+
+	public static void main(String[] args){
+		// 스택영역 생성
+		int a;
+		int b;
+	}
+}
+
+Person ps = new Person();
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+자바실습
+
+배열 실습
+ArrayTest
+public class ArrayTest {
+
+	public static void main(String[] args) {
+		// 기본 데이터타입으로 만든 배열 : 값타입 배열
+		// int[] 배열 이름 = new 값타입[] {배열 데이터};
+		int[] number = new int[] {1,2,3,4,5,6,7,8,9,10};
+		
+		// 배열의 장점 : for문을 사용할 수 있다.
+		// 배열 데이터가 많아져도 for문의 length는 바뀌지 않아서 소스 코드를 건들지 않아도 된다.
+		for(int i = 0; i < number.length; i++) {
+			System.out.println(number[i]);
+		}
+		
+		
+	}
+
+}
+
+ArrayTest2
+public class ArrayTest2 {
+	public static void main(String[] args) {
+		// 참조타입은 기본값이 null로 초기화된다.
+		// 배열 기본값이 null로 초기화된다.
+		
+		// 데이터타입[] 배열명 = new 데이터타입[배열 데이터의 크기]
+		// 스택(Stack) 영역 = 힙 데이터영역
+		// 힙 데이터영역으로 5개의 데이터 영역
+		
+		double[] data = new double[5]; // 힙 영역에 생성된 기억장소의 초기값은 0.0 => {0.0, 0.0, 0.0, 0.0, 0.0};
+		
+		// 값을 변경
+		data[0] = 10.0;
+		data[1] = 20.0;
+		data[2] = 30.0;
+		data[3] = 40.0;
+		data[4] = 50.0;
+		
+		// data.length : 배열의 길이=> 5
+		// 힙 영역에 생성된 배열 기억장소 요소의 개수
+		for (int i = 0; i < data.length; i++) {
+			System.out.println(data[i]);
+		}
+ 		
+	}
+}
+문자 배열
+
+CharArray
+package chapter7.array;
+
+// 문자 저장 배열
+public class CharArray {
+	public static void main(String[] args) {
+		char[] alpahabets = new char[26];
+		char ch = 'A'; // 65. 	소문자 : 97
+		
+		for(int i = 0; i < alpahabets.length; i++, ch++) {
+			alpahabets[i] = ch; // i = 0일 경우 65가 저장
+		}
+		
+		for(int i = 0; i < alpahabets.length; i++) {
+			System.out.println(alpahabets[i] + "," + (int)alpahabets[i]);
+		}
+	}
+}
+
+CharArrayReverse
+package chapter7.array;
+
+public class CharArrayReverse {
+	public static void main(String[] args) {
+		char[] alpahabets = new char[26];
+		char ch = 'Z'; // 90
+		
+		// ch를 --로 하면 Z부터 A까지 역순으로 출력된다
+		for(int i = 0; i < alpahabets.length; i++, ch--) {
+			alpahabets[i] = ch; // i = 0일 경우 90을 저장
+		}
+		
+		for(int i = 0; i < alpahabets.length; i++) {
+			System.out.println(alpahabets[i] + "," + (int)alpahabets[i]);
+		}
+	}
+}
+
+객체 배열
+Book
+package chapter7.array;
+
+public class Book {
+	private String bookName;
+	private String author;
+	
+	public Book() {
+		
+	}
+	
+	public Book(String bookName, String author) {
+		this.bookName = bookName;
+		this.author = author;
+	}
+	
+	public String getBookName() {
+		return bookName;
+	}
+	
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
+	}
+	
+	public String getAuthor() {
+		return author;
+	}
+	
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	
+	public void showBookInfo() {
+		System.out.println(bookName + ", " + author);
+	}
+}
+
+BookArray
+package chapter7.array;
+
+public class BookArray {
+	public static void main(String[] args) {
+		// 5개 객체 생성
+		// 스택영역에 5개 각각 생성
+		Book b1; // = new Book();
+		Book b2; // = new Book();
+		Book b3; // = new Book();
+		Book b4; // = new Book();
+		Book b5; // = new Book();
+		
+		// 객체가 생성되지 않은 상태에서는 사용 불가능. NPE (Null Pointer Exception) 에러
+		// System.out.println(b1);
+		// System.out.println(b2);
+		// System.out.println(b3);
+		// System.out.println(b4);
+		// System.out.println(b5);
+		
+		// 배열 요소 5개로 객체 배열 생성
+		// 스택 영역과 힙 영역에 정보 생성
+		Book[] library = new Book[5]; // library[0] ...... library[4]
+		
+		for(int i = 0; i < library.length; i++) {
+			System.out.println(library[i]);
+		}
+		
+		
+	}
+}
+BookArray2
+package chapter7.array;
+
+public class BookArray2 {
+	public static void main(String[] args) {
+		
+		// 5개 객체 생성
+		// 스택영역에 5개 각각 생성
+		Book b1; // = new Book();
+		Book b2; // = new Book();
+		Book b3; // = new Book();
+		Book b4; // = new Book();
+		Book b5; // = new Book();
+		
+		
+		// 배열 요소 5개로 객체 배열 생성
+		// 스택 영역과 힙 영역에 정보 생성
+		Book[] library = new Book[5]; // library[0] ...... library[4]
+		
+		
+		// 힙 영역에 데이터를 생성하는 기억장소 생성 작업
+		library[0] = new Book("태백산맥", "조정래");
+		library[1] = new Book("데미안", "헤르만 헤세");
+		library[2] = new Book("어떻게 살것인가?", "유시민");
+		library[3] = new Book("토지", "박경리");
+		library[4] = new Book("어린왕자", "생택쥐페리");
+		
+		for(int i = 0; i < library.length; i++) {
+			library[i].showBookInfo();
+		}
+		
+		for(int i = 0; i < library.length; i++) {
+			System.out.println(library[i]);
+		}
+		
+		
+	}
+}
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+pakage.chapter7.basic
+Person.java
+package chapter7.basic;
+
+public class Person {
+	int a;
+	int b;
+}
+
+PersonTest.java
+package chapter7.basic;
+
+public class PersonTest {
+	public static void main(String[] args) {
+		Person p1 = new Person();
+		p1.a = 10;
+		p1.b = 20;
+
+		System.out.println(p1.a);
+		System.out.println(p1.b);
+		
+		System.out.println("======================");
+		
+		Person p2 = p1; //주소가 복사(대입)		
+
+		System.out.println(p2.a);
+		System.out.println(p2.b);
+		
+		p2.a = 100;
+		p2.b = 200;
+		
+		System.out.println("======================");
+		
+		System.out.println(p2.a);
+		System.out.println(p2.b);
+		
+	}
+}
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+package chapter7.array;
+
+public class ArrayCopy {
+
+	public static void main(String[] args) {
+
+		int[] array1 = {10 ,20, 30, 40, 50};
+		int[] array2 = {1, 2, 3, 4, 5};
+		
+		// array 배열의 인덱스 0번째 위치에서 array2 배열에 인덱스 1 위치에 4개를 복사한다
+		// array1 배열의, 0번째 인덱스(array1[0])에, array2 배열의, 첫번째 인덱스(array2[1])에, 4개를 복사한다. 
+		System.arraycopy(array1, 0, array2, 1, 4);
+				
+		for(int i=0; i < array2.length; i++){
+			System.out.println(array2[i]);
+		}
+	}
+}
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+213p 얕은 복사와 깊은 복사
+ObjectCopy2 // 얕은 복사
+ObjectCopy3 // 깊은 복사
+
+// 얕은 복사  - 주소만 복사
+// 깊은 복사 - 메모리가 복사 시 동일한 메모리가 복사되어야 한다.
+
+
+String 클래스 참조타입
+
+String name = "홍길동";
+
+String name2 = "홍길동";
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+12장 컬렉션 프레임워크
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+8장 상속과 다형성
+customer.java
+vipccustomer.java // Customer 클래스를 상속받아 VIP Customer 클래스를 설계
+
+부모(상위) 클래스 - customer
+↓
+(상속 extends)
+↓
+자식(하위) 클래스 - vipcustomer
