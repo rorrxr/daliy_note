@@ -1,0 +1,57 @@
+JDK 17
+- JRE(Java Runtime Environment) : 자바 실행환경을 제공하는 프로그램
+- JVM :   운영체제로부터 위임을 받아, 자바 프로그램의 메모리 할당 및 관리.
+	Java Virtual Machine의 약자이며, 자바 가상 머신
+
+OS에 상관없이 실행할 수 있는 것이 장점이다. -> 이식성이 좋다
+(JVM 설치만 하면 어떤 운영체제에서든 java 파일을 실행할 수 있다.)
+
+JVM 실행 순서
+1. java 파일을 컴파일러를 통해 .class 파일로 변환한다.
+2. .class 파일을 JVM의 ClassLoader에게 보낸다.
+3. 클래스로더에서 JVM 런타임 영역으로 로딩(할당)하여 메모리에 올린다.
+
+JVM의 Runtime Data Area(런타임 데이터 영역)
+
+1. Static Area(Method Area)
+2. Heap Area
+3. Stack Area
+4. PC Register
+5. Native Method Stack
+
+-> lucas-owner.tistory.com/38
+
+
+윈도우즈 운영체제
+Hello.java -> Hello.class
+
+
+152p 연습문제
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+153p 생성자 
+
+157p 연습문제
+
+159 p 참조 자료형
+
+163p get() set() 메서드
+
+165p 정보 은닉 private
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+6장 클래스와 객체 this 예약어
+172p~173p
+ㅡㅡㅡㅡㅡ
+175p 객체간 협력
+bus.java, subway.java, student.java
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+181p ~ 190 page - static 변수
+Student s1 = new Student();
+Student s2 = new Student();
+Student s3 = new Student();
+Student s4 = new Student();
+Student s5 = new Student();
+
+183p 그림
+데이터 영역, 스택메모리, 힙 메모리

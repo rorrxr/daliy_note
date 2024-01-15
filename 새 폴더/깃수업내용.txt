@@ -1,0 +1,407 @@
+- 형상관리 : 파일버전관리기능.
+  프로그램 : GIT
+
+
+Hello.java
+
+
+- 소스의 변경작업 : 추가,삭제,수정
+
+버전관리
+Hello.java : 원본
+Hello_2.java
+Hello_3.java
+Hello_4.java
+Hello_5.java
+....
+....
+Hello_100.java - 현재
+
+
+Hello.java
+   작업1 - 시점. 기록
+   작업2 - 시점. 기록
+   작업3 - 시점. 기록
+
+형상관리 - 버전관리기능(VCS)
+  대표적인 : 깃(Git)
+
+코드이력관리
+
+
+깃 : 
+  - 개발자 1인.
+  - 팀: 협업
+
+https://git-scm.com/
+
+
+- 텍스트명령어
+- 툴(VS Code, 이클립스, 인텔리J 등등) : GUI방식으로 제공
+
+
+깃 의 기본구조
+
+ - Working Directory Area : 작업폴더
+    -> 개발소스가 존재하는 영역
+ - Staging Area : 임시기억장소
+ - Repository Area : 저장소
+
+
+프로젝트 : 깃 으로 형상관리.
+
+ - 환경설정 : 명령어 git config
+    사용자정보등록 : 사용자 이름과 이메일 주소는 필수 항목. 
+
+    1)로컬 사용자 : 각 프로젝트 별로 사용자정보를 관리
+      $ git config user.name "사용자이름"
+      $ git config user.email "이메일주소"
+    2)글로벌 사용자(권장)
+      $ git config --global user.name "사용자이름"
+      $ git config --global user.email "이메일주소"
+
+  주의: 자동으로 글로벌 사용자 등록을 적용하려면 생성된 저장소에서 
+         별도로 로컬 사용자 등록을 하지 않아야 합니다.
+
+ - 깃 동작이해
+   1)워킹 디렉터리(working directory) : 탐색기에서 확인이 가능한 작업폴더
+       - 다른 용어로 워킹 트리(working tree)
+   
+       - 정의(설명) : 말 그대로 로컬 저장소에 접근할 수 있으며, 실제로 파일을 생성하고 수정하는 공간입니다. 단순하게 파일을 저장하는 공간
+ 
+       - 깃은 저장공간을 논리적으로 관리.
+       - 깃은 저장 공간을 크게 
+           ‘작업을 하는 공간(working)’
+           ‘임시로 저장하는 공간(stage)’, 
+           ‘실제로 저장하여 기록하는 공간(repository)’으로 나눕니다. 
+          
+          이렇게 논리적으로 공간을 분리하는 것은 깃의 동작과 이력을 좀 더 효율적으로 처리하기 위해서입니다.
+
+          파일상태
+              tracked : 추적(깃관리) 파일
+            untracked : 추적되지 않는 파일
+ 
+
+  2) 스테이지(stage) 
+      - 논리적으로 ‘임시로 저장하는 공간’을 의미합니다
+
+        파일상태
+            stage : 기본값
+          unstage
+
+  3) 저장소(repository)(리포지터리)
+     - 깃은 작성된 소스 코드 파일의 모든 변경 사항을 관리합니다. 
+       관리되는 정보. 즉 파일의 변경 내역을 저장하고 관리하는 논리적인 공간
+
+     - 로컬(local) 리포지터리.   
+         반대로 원격(remote) 리포지터리 가 존재하고, 원격리포지터리 사이트로 github.com 이 유명하다.
+
+     - git init : 깃 초기화명령에 의하여 저장소가 생성됨.
+
+      .git 폴더가 생성됨 : 파일 이력관리작업 정보가 등록되어진다.
+
+
+     시나리오 : 작업영역(폴더)에  깃 초기화 작업 
+     1)작업영역폴더생성(sample01 폴더생성)
+         Git Bash프로그램 실행
+               - C:\Dev\Git 폴더 - 우클릭 - Open git bash here클릭
+
+         mkdir 폴더이름 :  폴더가 생성됨.
+         mkdir sample01
+
+         cd sample01
+
+         git init .
+
+        ls : 현재폴더의 정보를 보는 명령어
+         
+     
+
+- 깃헙을 이용한 원격리포지터리 생성
+
+   README.md : 리포지터리 소개(설명)
+
+
+  .gitignore : 리포지터리에 관리하지 않는 파일및폴더목록
+  -> git + ignore(무시)
+
+
+현재 작업폴더에서 파일생성 : index.html
+
+1)워킹 디렉토리라는 논리적인 관점
+
+- git status
+
+파일상태
+tracked : 추적함.  
+  -> 파일을 깃시스템으로 이력관리를 하는 의미.
+untracked  : 추적안함
+  -> 파일을 깃시스템으로 이력관리를 안하는 의미.
+
+- git add index.html
+
+2)stage 영역(임시폴더)로 index.html 파일을 관리.
+  파일상태
+  stage
+
+  unstage
+
+
+ 
+
+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
+
+
+
+환경설정
+운영체제에서 줄바꿈 발생시
+  windows : text\r\n
+
+  linux, mac : text\n
+
+문제가 발생되지 않기위하여 설정.
+
+-windows
+git config --global core.autocrlf true
+
+- mac, linux
+git config --global core.autocrlf input
+
+- 파일 생성시
+git add index.html
+git commit -m "메세지"
+
+- 파일 수정시
+git commit  -am "메세지"
+
+- 깃헙에 원격(remote)리포지터리 를 사용하는 목적
+   - 백업용 : 사무실 컴퓨터에서 작업하다가 깃헙에 소스를 올리고, 집에와서 컴퓨터로 받아서 작업을 하는 경우.
+   - 팀 협업 : 프로젝트 소스를 공유
+
+
+- 깃헙 : 깃 호스팅사이트
+
+
+- 로컬저장소에 원격저장소가 연결(등록) 되어야 함
+ git remote add origin https://github.com/doccomsa/work1.git
+
+
+-- 원격연결정보 확인
+ git remote
+ git remote -v
+
+
+push : 로컬저장소(데이타, 커밋정보)를 원격저장소로 올리는 작업
+fetch : 원격저장소(데이타, 커밋정보)를 로컬저장소로 받는 작업
+
+push작업
+- push작업이 처음이면, 인증키 생성하여, 인증작업을 해야 한다.
+  다음부터는 인증요청 작업없이 push가 진행될 수 있다.
+
+git push origin main
+
+
+- 원격리포지터리 다운 : .git 저장소가 존재하지 않는다.
+- 원격리포지터리 복제(clone) : .git저장소가 포함되어 있음
+    1) git clone https://github.com/doccomsa/work1.git .  : 현재폴더에 복제
+    2) git clone https://github.com/doccomsa/work1.git  work100  : work100폴더에 복제
+    3) git clone https://github.com/doccomsa/work1.git : 현재폴더에 자식폴더 work1로 복제.
+
+
+- 리눅스
+   파일과폴더를 구분시
+   ls -all
+
+   앞에 10자리에서 
+        첫번째자리가 d 폴더  - 파일을 의미함.
+        나머지 9자리 rwxrwxrwx  권한
+         r : read,  w : write x : execution
+
+ work1 폴더 이동
+  server.html 수정 : <h3>내용이 추가되었읍니다 2.</h3>
+
+ commit : server.html append2
+ push
+
+
+work1_clone 폴더 이동
+
+ git log
+ pull 로 반영
+ git log
+ 
+
+clone vs pull 비교
+ - clone : 깃헙에 원격리포지터리를 로컬에 복사하는 의미.
+ - pull : 로컬 저장소가 생성된 상태에서 원격리포지터리의 변경된 정보를 내려받는 것.
+
+
+원격 저장소 내용을 내려받는 방법은 크게 두 가지입니다. 
+    pull(풀) :  fetch + merge
+      원격저장소에서 데이타와 커밋정보를 로컬저장소로 내려받아, 
+       로컬저장소에 있는 데이타와 커밋정보에 병합(merge)을 자동으로 함
+    fetch(페치) : merge는 수동으로 해야함.
+       원격저장소에서 데이타와 커밋정보를 로컬저장소로 내려받아, 
+       로컬저장소에 있는 데이타와 커밋정보에 병합(merge)을 하지않고, 로컬에 존재만 하는 상태.
+       병합(merge)작업을 수동으로 명령어를 통하여 해야 함.
+
+ 브랜치(Branch) : 프로젝트를 진행하다 보면, 독립적인 기능이 추가 또는 기존소스의 대량변경 작업등이 발생될 때
+                       현재까지의 안정된 소스를 버전관리하고,  추가 또는 변경소스를 따로 관리하는 목적
+    
+  - git branch : 브랜치 목록확인
+
+  - 브랜치 생성 :  git branch 브랜치이름
+      : 브랜치가 생성될 때마다 기존브랜치를 복사한다. 
+         그 증명으로  git rev-parse 브랜치이름 명령어를 통하여, 해쉬코드값이 동일함을 알수가 있다.
+
+  - 브랜치 변경(이동) :  git checkout 브랜치이름
+
+  - 브랜치 해쉬코드값 확인 : git rev-parse 브랜치이름
+
+  - 브랜치 세부사항 :  git branch -v
+
+  - 이전 브랜치 이동 : git checkout -
+
+  - 브랜치 이동시 주의사항
+        1)현재 브랜치에서 작업사항을 잊고, 다른 브랜치로 이동하면 안된다.
+           즉, 현재브랜치에서 작업을 완료(commit) 또는 작업디렉토리가 clean 상태여야 한다.
+     
+  -- 브랜치 로그
+    git log --graph --all  : 그래픽효과를 통한 전체로그 출력
+
+  - 브랜치 삭제 : git branch -d 브랜치이름
+
+  - 브랜치 강제삭제 : git branch -D 브랜치이름
+      작업브랜치에 워킹디렉토리 또는 스테이지에 추가 커밋작업이 남아있으면 브랜치가 삭제가 안된다. 강제삭제 진행해야 함.
+
+
+ - 브랜치 병합(merge) : Fast-Forward 병합, 3-way 병합
+    1)Fast-Forward 병합 : 혼자 개발할 경우.
+         순차적으로 커밋에 맞추어 병합을 처리하는 방법.(브랜치가 일직선이 된다)
+         병합시 새로운 커밋이 생성안됨.
+         git checkout main
+         git merge feature : main브랜치에서 feature브랜치를 병합.
+
+
+
+       Fast-Forward 병합은 병합 할 하나의 브랜치파일을 기준브랜치로 복사하여 수정된 파일을 원본에 그대로 적용한것
+        main -> feature 복사 -> 수정작업1,2,3 커밋 -> main 브랜치에서 feature브랜치를 병합
+
+   2)3-way 병합 : 주로 협업 개발할 경우
+     병합 커밋이 생성됨.
+
+     git checkout -b hotfix 
+          git branch hotfix
+          git checkout hotfix
+
+     git checkout main
+     git merge hotfix
+
+  - 병합취소  
+    git reset --hard HEAD^       -- 이전단계 커밋
+    git merge hotfix --edit        -- vs code툴에서 메세지작성 후 저장.
+
+
+브랜치 관리기법 : 깃 플로(git flow) 
+   - 수많은 브랜치작업을 규격화해서 브랜치를 쉽게 다룰 수 있도록 하는 전략정도 
+   - 깃 플로 : main(master), feature, develop, release, hotfix 브랜치 종류가 있다.
+     이중에서 develop브랜치는 main(master)브랜치에 병합한 후에도 삭제하지 않고, 계속 유지한다.
+
+ - 브랜치 삭제 : git branch -d hotfix
+
+
+ - 충돌
+   하나의 파일에 같은위치에 코드가 동시에 수정이 되면 충돌이 발생.
+   병합하다가 충돌로 인하여, 병합이 실패되고,  그 원인을 수동으로 해결.
+
+- 병합한 브랜치 정보 : git branch --merged
+- 병합하지 않은 브랜치 정보 : git branch --no-merged
+
+- 리베이스(re-base)  : 병합커밋이 생성안됨.
+    ->비교 : 3-way병합
+
+   설명: 파생브랜치(description)의 커밋들은 기준브랜치(main)의 마지막 커밋으로 재정렬됨.
+
+   리베이스는 커밋위치를 재조정할 뿐 브랜치의 HEAD포인터까지 옮겨주지는 않습니다.
+
+
+- 코드 작업을 되돌리는 방법(복구)
+     reset vs revert : 차이점. 커밋정보 삭제여부.
+
+      1)reset : 기존커밋을 취소.
+           옵션
+               soft : 커밋은 취소되었으나 stage 영역의 정보는 존재
+                  파일을 수정하고, add명령어로 스테이지 영역에 올려 커밋을 실행하기 직전의 단계로 되돌린다.
+               mixed (기본값) : 커밋은 취소되었으나, 스테이지 상태는 복원하지 않음.
+                                      워킹디렉토리 상태에서 unstage 상태(modified)로 파일을 가리킴.
+                                      git add 파일명 이 명령을 하지 않은 상태.
+               hard : 커밋도 취소, 스테이지영역도 삭제, 워킹디렉토리 영역의 파일 삭제
+
+
+          커밋합치기
+          git reset --soft HEAD~2
+          menu4  - head
+          menu3
+          menu2
+          menu1
+          first
+
+          작업취소  : 위킹디렉토리와 스테이지 상태를 모두 제거하여 마지막 커밋상태로 되돌릴 때.
+              git reset --hard HEAD
+
+          리셋할 때 의 시점을 현재 HEAD를 기준으로하면, 수정작업을 모두 삭제할수가 있다.
+
+          병합취소 시나리오
+              - 2개의 브랜치가 병합된 상태에서 연습(3-way 병합)
+            git reset --merge HEAD~
+   
+              
+         주의할 점 : 공개된 커밋은 보통 리셋 작업을 하지 않는다
+
+      2)revert : 기존 커밋을 남겨두고, 취소에 대한 새로운 커밋을 생성한다.
+        한 번에 커밋 하나만 취소할수 있다.
+        여러 커밋을 리버트하려면, 최신 커밋부터 순차적으로 취소해야 한다.
+       
+         git revert 커밋ID
+         git revert 커밋ID .. 커밋ID
+
+        병합취소
+           - reset : 방금 전 실행한 병합만 삭제
+           - revert : 시간이 지난 후에도 과거의 병합을 선택하여 취소가 가능.
+
+
+     상대적인 커밋위치를 나타내는 기호.
+     HEAD~
+     HEAD~~
+     HEAD~~~
+
+     HEAD~1
+     HEAD~2
+     HEAD~3
+
+
+   ~ 또는 ^ 둘중에 하나를 사용가능
+
+리셋으로 간단하게 이전상태로 되돌리는 것이 간편하지만, 저장소를 공해했다면 
+ 리셋으로 커밋을 삭제하는 것은 협업차원에서 위험하다. 이때는 리버트가 유용하다.
+
+
+
+  
+   참고> git checkout 커밋ID
+             커밋을 취소하는 것이 아니라, 커밋ID 위치로 이동만 하는 명령어
+
+  
+
+
+   
+
+
+  
+
+
+
+
+
+
+

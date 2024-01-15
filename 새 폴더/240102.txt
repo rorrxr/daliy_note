@@ -1,0 +1,46 @@
+객체(object)
+	- 자동차, 리모컨, ...
+	- 공기, ...
+
+	- 상태(특징)
+	- 기능(행위)
+
+프로그래밍
+객체
+	- 속성(Property) - 명사
+	- 메서드(Method) - 동사
+	document 객체
+	- 속성과 메서드 명령어 존재
+
+	속성 - 괄호가 없다 (명사)
+	document.title 
+	<title> 웹페이지의 제목 </title>
+
+	메서드 - 괄호가 있다 (동사)
+	document.write("내용") : 화면 출력
+
+배열 객체 : 기억장소
+배열(Array) : 동일한 목적의 여러개의 기억장소를 하나의 대표하는 이름으로 관리하는 형태
+
+let name1 = "홍길동";
+let name2 = "이순신";
+let name3 = "손흥민";
+let name4 = "박세리";
+let name5 = "이봉주"; 
+
+아스키코드 : 128 문자 표현, 0~127
+유니코드 : 전세계 모든 문자를 다루도록 설계 0~65535 
+
+alert() : 경고
+prompt() : 입력
+comfirm() : 확인/취소
+
+Location
+
+Hostname : https://www.w3cschools.com/
+Pathname : /js/tryit.asp
+
+https://www.naver.com:80
+
+ip : 대표전화
+port : 내선번호 네트워크 기능을 가지고 있는 프로그램을 식별하기 위한 용도

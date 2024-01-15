@@ -1,0 +1,144 @@
+Git 교과서 : https://thebook.io/080212/0004/
+
+Hello.java
+- 소스의 변경 작업 : 추가, 삭제, 수정
+
+Hello.java : 원본
+Hello_2.java
+Hello_3.java
+Hello_4.java
+Hello_5.java
+...
+...
+Hello_100.java
+
+Hello.java
+작업1 - 시점.기록
+작업2 - 시점.기록
+작업3 - 시점.기록
+
+형상관리 - 버전관리기능(VCS)
+대표적인 프로그램 : Git(깃)
+
+코드이력관리
+
+깃
+- 개발자 1인
+- 팀 협업
+
+https://git-scm.com/
+
+- 텍스트 명령어
+- 툴 : 깃 기능
+
+3장 깃 개념 잡기
+
+★ 3.1 깃 저장소 생성
+★ 3.2 워킹 디렉터리
+★ 3.3 스테이지
+
+
+깃의 기본구조
+
+- Working Directory Area : 작업 폴더
+  -> 개발 소스가 존재하는 영역
+- Staging Area : 임시 기억장소
+- Repository Area : 저장소
+
+프로젝트 : 깃으로 형상관리
+
+-환경설정 : 명령어 git config
+사용자 이름과 이메일 주소는 필수 항목
+
+1) 로컬 사용자 : 각 프로젝트 별로 사용자 정보를 관리
+	$git config user.name "사용자이름"
+	$git config user.email "이메일주소"
+2) 글로벌 사용자(권장)
+	$cd 저장소 폴더 ----- 깃 저장소 폴더
+	$git config user.name "사용자이름"
+	$git config user.email "이메일주소"
+
+주의 : 자동으로 글로벌 사용자 등록을 적용하려면 생성된 저장소에서
+	별도로 로컬 사용자 등록을 하지 않아야 합니다.
+
+3장 깃 개념 잡기
+3.2 워킹 디렉터리
+
+- 깃 동작 이해
+1) 워킹 디렉터리(working directory) : 탐색기에서 확인 가능한 작업 폴더
+- 다른 용어로 워킹 트리(working tree)
+
+-정의(설명) : 말 그대로 로컬 저장소에 접근할 수 있으며, 실제로 파일을 생성하고 수정하는 공간
+
+-깃은 저장공간을 논리적으로 관리.
+-깃은 저장 공간을 크게
+'작업을 하는 공간(working)'
+'임시로 저장하는 공간(stage)'
+'실제로 저장하여 기록하는 공간(repository)'으로 나눈다.
+
+이렇게 논리적으로 공간을 분리하는 것은 깃의 동작과 이력을 좀 더 효율적으로 처리하기 위해서입니다.
+
+2) 스테이지(stage)
+- 논리적으로 '임시로 저장하는 공간'을 의미합니다.
+
+3) 저장소(repository) (리포지터리)
+-깃은 작성된 소스 코드 파일의 모든 변경 사항을 관리합니다.
+관리하는 정보. 즉 파일의 변경 내역을 저장하고 관리하는 논리적인 공간
+
+- 로컬(local) 리포지터리.
+	반대로 원격(remote) 리포지터리가 존재하고, 원격 리포지터리 사이트로 github.com이 유명하다.
+
+- git init : 깃 초기화 명령에 의하여 저장소가 생성됨.
+
+- .git 폴더가 생성됨 : 파일 이력관리작업 정보가 등록된다.
+
+
+시나리오 : 작업 영역을 깃 초기화 작업
+1) 작업 영역 폴더 생성 (Sample01 폴더 생성)
+Git Bash 프로그램 실행
+-C:\Dev\Git 폴더 - 우클릭 - Open git bash here 클릭
+
+mkdir 폴더이름 : 폴더가 생성됨
+mkdir Sample01
+
+ls : 현재 폴더의 정보를 보는 명령어
+
+3.1.2 초기화
+
+$mkdir jinygit03 ---- 새폴더 만들기
+$cd jinygit03 ---- 만든 폴더로 이동
+
+3-3 그림) 깃 초기화
+
+일반 폴더 ---(초기화/git init)---> 깃 저장소 (.git)
+
+
+Github을 이용한 원격 리포지터 생성
+https://nevertrustbrutus.tistory.com/153
+https://velog.io/@blackbean99/errorfailed-to-push-some-refs-to-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0%EB%B2%95
+1) Create a new repository
+
+* Add a README file 체크박스
+- 설명서 파일을 추가할 것인지 아닌지
+
+* Add .gitgnore : 리포지터리에 관리하지 않는 파일 및 폴더 목록
+-> git + ignore(무시)
+
+현재 작업 폴더에서 파일 생성
+1)워킹 디렉토리라는 논리적인 관점
+
+파일 상태
+
+tracked : 추적함
+-> 파일을 깃 시스템으로 이력관리
+
+untracked : 추적안함
+-> 파일을 깃 시스템으로 이력 관리를 안 하는 의미.
+
+2) stage 영역(임시 폴더)로 index.html 파일을 관리.
+파일 상태
+stage
+
+unstage
+
+// 
