@@ -40,7 +40,7 @@ Hello.java -> Hello.class
 165p 정보 은닉 private
 
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-6장 클래스와 객체 this 예약어
+6장 클래스와 객체 2 this 예약어
 172p~173p
 ㅡㅡㅡㅡㅡ
 175p 객체간 협력
