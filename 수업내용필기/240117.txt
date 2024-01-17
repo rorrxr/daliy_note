@@ -1,0 +1,241 @@
+11장 기본 클래스 
+
+11-1 Object 클래스
+//chapter11.object
+
+354p toString 메서드
+Object 클래스에서 기본으로 제공하는 toString()메서드는
+이름처럼 객체 정보를 문자열(String)으로 바꾸어 줍니다.
+
+Obejct 클래스를 상속받은 모든 클래스는 toString()을 재정의할 수있습니다.
+String이나 Integer 등 여러 JDK 클래스에는 toString()메서드가 이미 재정의되어 있습니다.
+
+
+ToStringEx.java // Object 클래스의 toString 메서드 정의
+
+- toString()메서드 재정의 하지 않으면 Object 클래스에서 제공하는 toString 메서드 호출
+- chapter11.object.Book@7c30a502
+- toString() 메서드 재정의가 되어있으면, 재정의된 메서드를 호출한다. => 개미 200
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+357p equals 메서드
+
+equals() 메서드의 원래 기능은 두 인스턴스의 주소값을 비교하여 boolean값(true/false)을 반환해 주는 것이다.
+주소 값이 같다면 당연히 같은 인스턴스입니다.
+그런데 서로 다른 주소값을 가질 때도 같은 인스턴스라고 정의할 수 있다.
+
+따라서 물리적 동일성(인스턴스의 메모리 주소가 같음)뿐 아니라 
+논리적 동일성(논리적으로 두 인스턴스가 같음)을 구현할 때도
+equals() 메서드를 재정의하여 사용한다.
+
+
+EqualTest.java // Object 클래스의 equals 메서드 정의 
+
+- 객체 비교시 내부적으로 Object 클래스의 equal(), hashCode()메서드가 사용된다
+- st1, st2 객체와 st3 객체가 동일한 데이터를 가지고 있으면, 
+  동일한 객체 비교가 되도록 equals(), hashCode() 메서드를 재정의해야 한다.
+
+// 2개의 객체가 동일한 데이터를 가지고 있으면, equals(), hashCode()메서드를 재정의하여
+// 동일한 데이터로 비교가 되도록 재정의를 한다.
+	
+// 객체가 동일한 지를 비교하면
+// hashCode가 리턴하는 정수값이 같은지를 확인하고, 그 다음 equals 메서드가 true로 리턴하는지 확인하여
+// 동등 객체인지 판단한다.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+355p 
+toString -> 클래스 이름, 해시코드값
+
+
+chapter6.singleton.Person@43a25848
+패키지명.클래스명@해시코드값
+
+해시코드값 : 힙 영역의 주소를 찾아가는 용도로 사용됨.
+
+363p hashcode 메서드
+hash 란? 
+- 정보를 저장하거나 검색할 때 사용하는 자료구조이다.
+
+정보를 어디에 저장할 것인지, 어디서 가져올 것인지 해시 함수를 사용하여 구현한다.
+
+해시 함수는 객체의 특정 정보(키 값)를 매개변수 값으로 넣으면
+그 객체가 저장되어야 할 위치나 저장된 해시 테이블 주소(위치)를 반환합니다.
+
+따라서 객체 정보를 알면 해당 객체의 위치를 빠르게 검색할 수 있다.
+
+자바에서는 인스턴스를 힙 메모리에 생성하여 관리할 때 해시 알고리즘을 사용한다.
+
+=> hashCode = hash(key) // 객체의 해시 코드 값(메모리 위치 값)이 반환됨
+
+index 	= 	hash(key)
+저장위치		해시함수(객체정보)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+366p clone() 메서드
+
+clone() 메서드는 객체를 복제해 또 다른 객체를 반환해주는 메서드이다.
+
+객체 원본을 유지해놓고 복사본을 사용한다거나,
+기본 틀(prototype)의 복사본을 사용해 동일한 인스턴스를 만들어 복잡한 생성과정을
+간단히 하려는 경우에 clone()메서드를 사용할 수 있다.
+
+clone() 메서드는 다음과 같이 선언한다.
+=> protectd Object clone();
+
+ObjectCloneTest.java // clone() 메서드로 인스턴스 복제하기
+
+// 객체 복사 : Cloneable 인터페이스 사용. Object 클래스 clone() 메서드 사용.
+// 얕은 복사 : 클래스의 멤버 필드가 참조타입인 경우에는 주소만 복사됨.
+// 깊은 복사 : Object 클래스 clone() 메서드를 재정의하며, 참조타입 필드를 새로 생성하는 작업을 처리해줘야 한다.
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+11-2 String 클래스 (369p) //chapter11.string
+
+자바는 문자열을 사용할 수 있도록 String 클래스를 제공합니다.
+문자열은 프로그램을 구현할 때 많이 활용합니다.
+String을 사용할 때 문자열을 생성자의 매개변수로 하여 생성하는 방식과
+이미 생성된 문자열 상수를 가르키는 방식이 있습니다.
+
+예시)
+String str1 = new String("abc"); // 생성자의 매개변수로 문자열 생성
+String str2 = "test" // 문자열 상수를 가르키는 방식
+
+
+// String 클래스 메서드는 자바스크립트 String 객체 메서드와 동일하거나 유사하다.
+
+
+StringTest1.java // String 클래스 실습 - 주소 값 비교하기
+
+// String 클래스 : 문자열 데이터작업
+// 기본데이터타입 char : 문자 1개 작업
+
+// 1) 사용법 1. 참조 타입 사용법
+
+// 2) 사용법 2. 기본 데이터타입 사용법과 동일. byte, short, int, long ...
+// 힙 영역에 동일한 문자열이 존재하면, 재사용한다. 그래서 주소가 동일하게 된다.
+
+StringTest2.java // String 클래스 실습 -  두 문자열 비교하기
+// String 클래스는 문자열 연결 작업시 새로운 메모리가 생성이 된다.
+
+// str = str + "반갑습니다."; --> "안녕하세요.반갑습니다.";
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+StringBuffer와 StringBuilder 클래스 372p
+
+프로그램을 만들다 보면 문자열을 변경하거나 연결해야 할 때가 많습니다.
+그런데 String 클래스는 한번 생성되면 그 내부의 문자열이 변경되지 않기 때문에
+String 클래스를 사용하여 문자열을 계속 연결하거나 변경하는 프로그램을 작성하면 메모리가 많이 낭비됩니다.
+이 문제를 해결하는 것이 바로 StringBuffer와 StringBuilder 클래스입니다.
+
+#StringBuffer 클래스
+문자열이 안전하게 변경되도록 보장한다.
+
+#StringBuilder
+문자열이 안전하게 변경되도록 보장하지 않는다.
+프로그램에서 따로 스레드를 생성하는 멀티스레드 프로그램이 아니라면 StringBuilder를 사용하는 것이 실행 속도가 좀 더 빠름.
+
+
+
+StringBuilerTest.java // String 클래스 실습 - StringBuilder 클래스 예제
+
+// String 클래스를 사용 시 성능을 목적으로 개선하기 위한 클래스 StringBuilder
+
+
+[374p 그림] 메모리 상태
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+11-3 Wrapper 클래스 (375 p)
+
+IntegerTest.java
+
+// Wrapper 클래스 : 기본 데이터타입을 위한 클래스
+// 기본데이터 타입을 객체로 사용하는 목적.
+
+// 기본 데이터타입 : boolean, byte, char, short, int, long, float, double
+		
+// Wrapper 클래스의 종류
+/*
+	Boolean;
+	Byte;
+	Character;
+	Short;
+	Integer;
+	Long;
+	Float;
+	Double;
+*/
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+378p Class 클래스
+
+//chapter11.classex
+
+Person.java
+ClassTest.java // Person의 class 클래스 가져오기 380p
+
+StringClassTest.java // String 클래스 정보 가져오기 381p
+
+NewInstanceTest.java // Person 클래스의 인스턴스 생성하기 383p
+// newInstance()를 사용해 클래스 생성하기
+// throws ClassNotFoundException, InstantiationException, IllegalAccessException
+
++) #Class.forName() 384p
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+12장 컬렉션 프레임워크
+//chapter12
+
+GenericIntroBasic.java
+
+// Object 클래스 : 모든 클래스를 자동상속 한다.
+// 클래스는 참조 타입에 해당한다.
+// 가장 큰 데이터 타입이다.
+// 데이터 타입 : 기억장소를 생성.
+// 기억장소에 데이터를 저장하고 읽어올 수가 있다.
+		
+// 기억장소 : 기본 데이터타입(숫자, 문자, 논리), 참조타입이 해당하는 모든 데이터는 저장 가능.
+
+// 저장. 묵시적 형변환.		 Object o1 = (Object 생략) 데이터
+// 1) 기본 데이터타입. UnBoxing 형변환
+
+// 읽기. 명시적 형변환.		 원래 데이터타입 변수 = (원래 데이터타입) Object 객체; 
+// 2) 참조타입. Boxing 형변환
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12-1 제네릭 클래스 388p //chapter12.Generics
+
+# Power.java // Powder 클래스 정의
+# Plastic.java // Plastic 클래스 정의
+
+# GenericPrinter.java // GenericPrinter<T> 제너릭 클래스 정의하기
+>> 제너릭 기능이 있는 GenericPrinter 클래스
+>>class 클래스명 <알파벳 문자> 			 <T> : 타입 파라미터
+
+# GenericPrintertTest.java // GenericPrinter<T> 제너릭 클래스 사용하기
+
+/ *
+	GenericPrinter<Powder> powderPrinter = new GenericPrinter<Powder>();
+		
+	powderPrinter.setMaterial(new Powder());
+	Powder powder = powderPrinter.getMaterial();
+	System.out.println(powderPrinter);
+*/
+
+//chapter12.Generic2
+
+Point.java // 자료형 매개변수를 두 개 사용하는 클래스
+GenericMethod.java // 제너릭 메서드 구현하기
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+12-2 컬렉션 프레임워크
+
+// TCPSchool 컬렉션 프레임워크 참고자료
+https://tcpschool.com/java/java_collectionFramework_concept
+
+주요 인터페이스의 간략한 특징
+자바에서 컬렉션 프레임워크를 구성하고 있는 주요 인터페이스의 간략한 특징은 다음과 같습니다.
+
+인터페이스			설명							구현 클래스
+List<E>		순서가 있는 데이터의 집합으로, 데이터의 중복을 허용함.			Vector, ArrayList, LinkedList, Stack, Queue
+
+Set<E>		순서가 없는 데이터의 집합으로, 데이터의 중복을 허용하지 않음.		HashSet, TreeSet
+
+Map<K, V>	키와 값의 한 쌍으로 이루어지는 데이터의 집합으로, 순서가 없음.
+		이때 키는 중복을 허용하지 않지만, 값은 중복될 수 있음. 			HashMap, TreeMap, Hashtable, Properties
