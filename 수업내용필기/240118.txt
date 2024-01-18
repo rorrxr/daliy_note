@@ -1,0 +1,84 @@
+
+컬렉션 프레임워크 주요 인터페이스
+컬렉션 프레임워크에서는 데이터를 저장하는 자료 구조에 따라 
+다음과 같은 핵심이 되는 주요 인터페이스를 정의하고 있습니다.
+
+1. List 인터페이스 => 제일 쓰임새가 많다(ArrayList)
+2. Set 인터페이스
+3. Map 인터페이스
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+12-3 List 인터페이스
+
+# ArrayList 409p
+
+chapter12.collection/Member.java
+
+//chapter12.collection.arraylist
+
+MemberArrayList.java
+ArrayListDemo.java
+MemberArrayListTest.java
+
+배열과 컬렉션 비교
+
+- 배열 : 크기고정
+Member[] members = new Member[3];
+
+- 컬렉션 : 크기 고정되어 있지 않다.
+
+# LinkedList 클래스 414p
+
+StackTest.java
+StackTest1.java
+QueueTest.java
+QueueTest2.java
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+12-4 Set 인터페이스
+
+@HashSet 클래스 423p
+//chapter12.collection.hashset
+
+@TreeSet 클래스 428p
+// chapter12.collection.treeset
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+12-5 Map 인터페이스
+https://bcp0109.tistory.com/168
+
+#HashMap 클래스 439p
+
+//chapter12.collection.map
+
+HashMapTest.java
+MemberHashMap.java
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+13장 내부 클래스, 람다식, 스트림
+
+13-1 내부클래스 449p
+
+// chapter13.innerclass
+
+InnerTest.java
+
+
+13-2 람다식 461p // chapter13.lamda
+
+// W3CSchool 자바 람다 설명 참고
+https://www.w3schools.com/java/java_lambda.asp
+
+람다식 기본 뼈대 문법 : (매개변수) -> {실행문;}
+예 ) (int x, int y) -> {return x + y}; // add() 메서드 표현
+
+// 함수형 인터페이스 설명
+https://bcp0109.tistory.com/313
+
+// 함수형 인터페이스
+@FunctionalInterface // @이름 : Annotation(어노테이션)
+
+MyNumber.java // 함수형 인터페이스
+
+LocalInnerTest.java
+// MyNumber max = 추상메서드 구현 작업을 람다식으로 문법표현; 
+// MyNumber max = (매개변수) -> 실행 문장
