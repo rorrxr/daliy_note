@@ -1,0 +1,114 @@
+
+13-2 람다식
+
+https://hudi.blog/functional-interface-of-standard-api-java-8/
+
+자바 함수형 인터페이스 사용 이유
+
+- 자바 람다식과 함수형 인터페이스를 사용하면 익명 클래스의 선언을 대체할 수 있습니다. 
+이를 통해 코드를 더욱 간결하게 만들고, 익명 클래스의 중복 사용에 따른 코드의 중복을 줄일 수 있습니다.
+
+https://yozm.wishket.com/magazine/detail/2023/
+
+StringConcat.java
+StringConCatImpl.java
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+13-3 스트림
+
+배열
+컬렉션
+- List, Set, Map
+
+스트림 : 데이터소스(원본)이 배열 또는 컬렉션을 대상으로 사용하는 기술
+
+입출력 스트림
+
+// chapter13.stream
+
+IntArrayTest.java
+ArrayListStreamTest.java
+
+ReduceTest.java
+TravelCustomer.java
+TravelTest.java
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+14장 예외처리 
+
+오류
+- 컴파일 오류 : 문법 규칙을 어긴 코드의 오류
+- 런타임 오류 : 1) 문법 검사 2) 바이트 코드 : 클래스 생성
+
+런타임 오류 : 컴파일 작업이 성공적으로 처리되고 클래스가 생성된다.
+클래스를 실행시 발생되는 오류.
+
+14-1 예외클래스 487p
+ArrayExceptionHandling.java
+NullExcetpion.java
+ExceptionHandling1.java // try~catch문
+ExceptionHandling2.java // try~catch~finally문 사용
+
+14-2 예외처리하기
+
+예외처리
+# try~catch문
+# try~catch~finally문
+
+AutoCloseObj.java
+AutoCloseTest.java
+
+14-3예외처리미루기
+예외전가(예외처리 미루기)
+ThrowsException.java
+
+14-4 사용자 정의 예외
+IDFormatException.java
+IDFormatTest.java
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+15장 자바 입출력
+
+ 
+15-1 자바 입출력과 스트림 512p
+
+입출력 스트림
+- 작업 방향
+1) 입력 스트림 (read) : 자바 <-------------- 파일
+2) 출력 스트림 (write) : 자바 ---------------> 파일
+
+클래스 이름 분석 : input or output 단어가 존재하면 입력, 출력
+
+바이트, 문자 스트림
+- 스트림에서 작업하는 데이터 단위
+1) 바이트 : 스트림에서 사용하는 메서드들이 바이트단위
+2) 문자 : 스트림에서 사용하는 메서드들이 문자 단위
+
+참고) 문자 스트림도 내부적으로 바이트 단위로 사용
+
+클래스 이름 분석 : 
+-> input or output 단어가 존재하면 입력, 출력
+-> stream 단어가 존재하면, 바이트 지원
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+JAVA
+- 콘솔 응용 프로그램
+- 안드로이드 응용프로그램
+- 윈도우즈 응용프로그램
+
+- 웹 응용프로그램
+	JSP
+	Spring
+
+- 라이브러리 
+
+배포파일 : 파일의 확장자 - jar
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+스레드(Thread)
+- main() 메서드
+작성된 순서대로 위에서 아래로 해석되어 실행이 된다.
+
+
+- 카톡
+- 문서 편집기
