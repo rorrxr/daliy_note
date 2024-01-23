@@ -328,6 +328,10 @@ public class ThreadB extends Thread {
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 //chapter16.sec02.priority
 
+스레드 스케줄링
+
+
+
 #CalcThread.java
 
 package chapter16.sec02.priority;
