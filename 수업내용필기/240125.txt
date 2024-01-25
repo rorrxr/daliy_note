@@ -1,0 +1,398 @@
+
+--POWER 함수는 n2를 n1 제곱한 결과를 반환한다. n1은 정수와 실수 모두 올 수 있는데, n2가 음수일 때 n1은 정수만 올 수 있다.
+SELECT POWER(3, 2), POWER(3, 3), POWER(3, 3.0001) FROM DUAL;
+    
+SELECT POWER(-3, 3.0001) FROM DUAL;
+
+-- SQRT 함수는 n의 제곱근을 반환한다.
+SELECT SQRT(2), SQRT(5) FROM DUAL;
+
+-- MOD 함수는 n2를 n1으로 나눈 나머지 값을 반환한다.
+SELECT MOD(19,4), MOD(19.123, 4.2) FROM DUAL;
+
+-- REMAINDER 함수 역시 n2를 n1으로 나눈 나머지 값을 반환하는데, 나머지를 구하는 내부적 연산 방법이 MOD 함수와는 약간 다르다.
+SELECT REMAINDER(19,4), REMAINDER(19.123, 4.2) FROM DUAL;
+
+-- EXP는 지수 함수로 e(e=2.71828183…)의 n제곱 값을 반환하고, LN 함수는 자연 로그 함수로 밑수가 e인 로그 함수다. 
+-- 반면 LOG는 n2를 밑수로 하는 n1의 로그 값을 반환한다.
+SELECT EXP(2), LN(2.713), LOG(10, 100) FROM DUAL;
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+#문자 함수
+: 문자 함수는 연산 대상이 문자이며 반환 값은 함수에 따라 문자나 숫자를 반환한다.
+
+-- ① INITCAP(char), LOWER(char), UPPER(char)
+
+-- INITCAP 함수는 매개변수로 들어오는 char의 첫 문자는 대문자로, 나머지는 소문자로 반환하는 함수다. 이때 첫 문자를 인식하는 기준은 공백과 알파벳(숫자 포함)을 제외한 문자다. 
+-- 즉 공백이나 알파벳이 아닌 문자를 만난 후 다음 첫 알파벳 문자를 대문자로 변환한다.
+SELECT INITCAP('never say goodbye'), INITCAP('never6say*good가bye') FROM DUAL;
+
+-- LOWER 함수는 매개변수로 들어오는 문자를 모두 소문자로, UPPDER 함수는 대문자로 변환해 반환한다.
+SELECT LOWER('NEVER SAY GOODBYE'), UPPER('never say goodbye') FROM DUAL;
+
+-- ② CONCAT(char1, char2), SUBSTR(char, pos, len), SUBSTRB(char, pos, len)
+
+-- CONCAT 함수는 ‘||’ 연산자처럼 매개변수로 들어오는 두 문자를 붙여 반환한다.
+SELECT CONCAT('I Have', ' A Dream'), 'I Have' || ' A Dream' FROM DUAL;
+
+-- SUBSTR는 문자 함수 중 가장 많이 사용되는 함수로, 잘라올 대사 문자열인 char의 pos번째 문자부터 len길이만큼 잘라낸 결과를 반환하는 함수다. 
+-- pos 값으로 0이 오면 디폴트 값인 1, 즉 첫 번째 문자를 가리키며, 음수가 오면 char 문자열 맨 끝에서 시작한 상대적 위치를 의미한다. 
+-- 또한 len 값이 생략되면 pos번째 문자부터 나머지 모든 문자를 반환한다.
+SELECT SUBSTR('ABCDEFG', 1, 4), SUBSTR('ABCDEFG', -1, 4) FROM DUAL;
+
+
+-- SUBSTRB는 문자 개수가 아닌 문자열의 바이트(BYTE) 수만큼 잘라낸 결과를 반환한다
+-- 영문, 숫자, 특수문자 등 1BYTE 한글은 2BYTE OR 3BYTYE로 인식
+SELECT SUBSTRB('ABCDEFG', 1, 4), SUBSTRB('가나다라마바사', 1, 4) FROM DUAL;
+
+-- 한글이 열바이트로 관리
+SELECT SUBSTRB('가') FROM DUAL;
+
+
+-- LTRIM 함수는 매개변수로 들어온 char 문자열에서 set으로 지정된 문자열을 왼쪽 끝에서 제거한 후 나머지 문자열을 반환한다.
+--  RTRIM 함수는 LTRIM 함수와 반대로 오른쪽 끝에서 제거한 뒤 나머지 문자열을 반환한다.
+SELECT LTRIM('ABCDEFGABC', 'ABC'),
+           LTRIM('가나다라', '가'),
+           RTRIM('ABCDEFGABC', 'ABC'),
+           RTRIM('가나다라', '라')
+FROM DUAL;
+
+-- LPAD 함수는 매개변수로 들어온 expr2 문자열(생략할 때 디폴트는 공백 한 문자)을 n자리만큼 왼쪽부터 채워 expr1을 반환하는 함수다.
+-- 실습 예시 )서울의 지역 전화번호는 ‘02’인데 전화번호 컬럼에 지역번호가 없으면 LPAD 함수로 번호 02를 자동으로 채워 넣을 수 있다.
+
+CREATE TABLE ex4_1(
+	phone_num varchar2(30)
+);
+
+INSERT INTO ex4_1 VALUES('111-1111');
+INSERT INTO ex4_1 VALUES('111-2222');
+INSERT INTO ex4_1 VALUES('111-3333');
+
+SELECT * FROM ex4_1;
+
+SELECT LPAD(phone_num, 12, '(02)')
+FROM ex4_1;
+
+-- ⑤ REPLACE(char, search_str, replace_str)
+-- REPLACE 함수는 char 문자열에서 search_str 문자열을 찾아 이를 replace_str 문자열로 대체한 결과를 반환하는 함수다.
+SELECT REPLACE('나는 너를 모르는데 너는 나를 알겠는가?', '나', '너') FROM DUAL;
+
+-- 공백제거
+SELECT LTRIM('ABC DEF'),
+LTRIM(' ABC DEF'),
+REPLACE(' ABC DEF ', ' ', '')
+FROM DUAL;
+
+-- TRANSLATE 함수는 REPLACE와 유사하다. expr 문자열에서 FROM_str에 해당하는 문자를 찾아 to_str로 바꾼 결과를 반환하는데, REPLACE와 다른 점은 문자열 자체가 아닌 문자 한 글자씩 매핑해 바꾼 결과를 반환한다.
+SELECT REPLACE('나는 너를 모르는데 너는 나를 알겠는가?', '나는', '너를') AS rep,
+           TRANSLATE('나는 너를 모르는데 너는 나를 알겠는가?', '나는', '너를') AS trn
+FROM DUAL;
+
+-- INSTR 함수는 str 문자열에서 substr과 일치하는 위치를 반환하는데, pos는 시작 위치로 디폴트 값은 1, occur은 몇 번째 일치하는지를 명시하며 디폴트 값은 1이다.
+SELECT INSTR('내가 만약 외로울 때면, 내가 만약 괴로울 때면, 내가 만약 즐거울 때면', '만약') AS INSTR1,
+           INSTR('내가 만약 외로울 때면, 내가 만약 괴로울 때면, 내가 만약 즐거울 때면', '만약', 5) AS INSTR2,
+           INSTR('내가 만약 외로울 때면, 내가 만약 괴로울 때면, 내가 만약 즐거울 때면', '만약', 5, 2) AS INSTR3
+      FROM DUAL;
+
+-- LENGTH 함수는 매개변수로 들어온 문자열의 개수를 반환하며, LENGTHB 함수는 해당 문자열의 바이트 수를 반환한다.
+SELECT LENGTH('대한민국'),
+           LENGTHB('대한민국')
+      FROM DUAL;
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+#날짜 함수
+-- 날짜 함수는 DATE 함수나 TIMESTAMP 함수와 같은 날짜형을 대상으로 연산을 수행해 결과를 반환하는 함수다. 
+
+데이타베이스 NLS설정
+https://bundw.tistory.com/94
+
+-- ① SYSDATE 초까지 반환, SYSTIMESTAMP 밀리세컨드 반환
+SELECT SYSDATE, SYSTIMESTAMP FROM DUAL;
+
+-- ② ADD_MONTHS (date, integer)
+-- ADD_MONTHS 함수는 매개변수로 들어온 날짜에 interger 만큼의 월을 더한 날짜를 반환한다.
+SELECT ADD_MONTHS(SYSDATE, 1), ADD_MONTHS(SYSDATE, -1) FROM DUAL;
+
+-- ③ MONTHS_BETWEEN(date1, date2)
+-- MONTHS_BETWEEN 함수는 두 날짜 사이의 개월 수를 반환하는데, date2가 date1보다 빠른 날짜가 온다.
+SELECT MONTHS_BETWEEN(SYSDATE, ADD_MONTHS(SYSDATE, 1)) mon1,
+           MONTHS_BETWEEN(ADD_MONTHS(SYSDATE, 1), SYSDATE) mon2
+FROM DUAL;
+
+https://1day1code.tistory.com/entry/SQL-%EB%82%A0%EC%A7%9C-%EC%97%B0%EC%82%B0-%EA%B7%BC%EC%86%8D%EC%9D%BC%EC%88%98-%EA%B7%BC%EC%86%8D%EC%9B%94%EC%88%98-%EA%B7%BC%EC%86%8D%EC%97%B0%EC%88%98-%EA%B5%AC%ED%95%98%EA%B8%B0
+-- 근속 일수
+SELECT emp_name, HIRE_DATE,  TRUNC (SYSDATE - HIRE_DATE ) + 1   근속일수 FROM EMPLOYEES;
+
+-- 근속 월수
+SELECT emp_name, HIRE_DATE, TRUNC(MONTHS_BETWEEN(SYSDATE, HIRE_DATE)) FROM EMPLOYEES;
+
+-- 근속 년수
+SELECT emp_name, HIRE_DATE, TRUNC(((SYSDATE - HIRE_DATE) + 1) / 365) 근속년수 FROM EMPLOYEES;
+
+// FROM keyword not found where expected
+https://itprogramming119.tistory.com/entry/Oracle-Error-04-ORA-00923-FROM-%ED%82%A4%EC%9B%8C%EB%93%9C%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%9C-%EC%9C%84%EC%B9%98%EC%97%90-%EC%97%86%EC%8A%B5%EB%8B%88%EB%8B%A4
+
+-- ④ LAST_DAY(date)
+-- LAST_DAY는 date 날짜를 기준으로 해당 월의 마지막 일자를 반환한다.
+SELECT LAST_DAY(SYSDATE) FROM DUAL;
+
+-- ⑤ ROUND(date, format), TRUNC(date, format)
+-- ROUND와 TRUNC는 숫자 함수이면서 날짜 함수로도 쓰이는데, ROUND는 format에 따라 반올림한 날짜를, TRUNC는 잘라낸 날짜를 반환한다.
+SELECT SYSDATE, ROUND(SYSDATE, 'month'), TRUNC(SYSDATE, 'month') FROM DUAL;
+
+-- 16일은 반올림이 안 되고, 10일 이상부터는 반올림처리 된다.
+SELECT ROUND(TO_DATE('2024-01-15'), 'MONTH'), ROUND(TO_DATE('2024-01-16'),'MONTH') FROM DUAL;
+
+-- ⑥ NEXT_DAY (date, char)
+-- NEXT_DAY는 date를 char에 명시한 날짜로 다음 주 주중 일자를 반환한다.
+SELECT NEXT_DAY(SYSDATE, '금요일') FROM DUAL;
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+04 | 변환 함수
+변환 함수란 서로 다른 유형의 데이터 타입으로 변환해 결과를 반환하는 함수를 말한다. 
+3장에서 언급했듯이 오라클이 자동으로 형변환을 해주는 것을 묵시적 형변환이라 하는데 
+이 절에서 학습하는 변환 함수를 통해 형변환을 직접 처리하는 것을 명시적 형변환이라고 한다.
+
+
+-- 변환 함수란 서로 다른 유형의 데이터타입으로 변환해 결과를 반환하는 함수를 말한다.
+
+-- ① TO_CHAR (숫자 혹은 날짜, format)
+-- 숫자나 날짜를 문자로 변환해 주는 함수가 바로 TO_CHAR로, 
+-- 매개변수로는 숫자나 날짜가 올 수 있고 반환 결과를 특정 형식에 맞게 출력할 수 있다.
+SELECT TO_CHAR(123456789, '999,999,999') FROM DUAL;
+
+SELECT SYSDATE, TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+FROM DUAL;
+
+// ▼ 표 4-1 날짜 변환 형식
+// https://thebook.io/006696/0110/
+
+-- ② TO_NUMBER(expr, format)
+-- 문자나 다른 유형의 숫자를 NUMBER 형으로 변환하는 함수다.
+SELECT TO_NUMBER('123456') FROM DUAL;
+
+③ TO_DATE(char, format), TO_TIMESTAMP(char, format)
+-- 문자를 날짜형으로 변환하는 함수다. 
+-- TO_DATE는 DATE 형으로 TO_TIMESTAMP는 TIMESTAMP 형으로 변환해 값을 반환한다.
+
+SELECT TO_DATE('20140101', 'YYYY-MM-DD') FROM DUAL;
+
+SELECT TO_DATE('20140101 13:44:50', 'YYYY-MM-DD HH24:MI:SS') FROM DUAL;
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+05 | NULL 관련 함수
+3장에서 알아봤듯이 NULL을 비교할 때는 IS NULL이나 IS NOT NULL 구문을 사용하였는데, 오라클에서는 NULL을 연산 대상으로 처리하는 SQL 함수를 제공하고 있다.
+
+-- NULL 관련 함수
+-- IS NULL, IS NOT NULL
+-- COMMISION_PCT 컬럼이 NULL인 데이터 조회
+SELECT employee_id, EMP_NAME, SALARY, COMMSION_PCT FROM EMPLOYEE WHERE COMMISION_PCT IS NULL;
+
+-- COMMISION_PCT 컬럼이 NOT NULL인 데이터 조회
+
+SELECT employee_id, EMP_NAME, SALARY, COMMSION_PCT FROM EMPLOYEE WHERE COMMISION_PCT IS NOT NULL;
+
+
+-- ① NVL(expr1, expr2), NVL2((expr1, expr2, expr3)
+-- NVL 함수는 expr1이 NULL일 때 expr2를 반환한다.
+
+SELECT NVL(NULL, 100) NVL(200, 100) FROM DUAL;
+
+-- manager_id가 NULL인 사원을 조회했는데, manager_id가 NULL일 때manager_id 대신 사번(employee_id)을 조회하는 쿼리다.
+SELECT NVL(manager_id, employee_id)
+FROM employees
+WHERE manager_id IS NULL;
+
+-- 사람의 급여를 조회하라. ( 단 커미션이 존재하지 않음)
+SELECT employee_id,
+           NVL2(commission_pct, salary + (salary * commission_pct), salary) AS salary2
+FROM employees;
+-- 앞의 쿼리는 커미션(commission_pct)이 NULL인 사원은 그냥 급여를, NULL이 아니면 ‘급여 + (급여 * 커미션)’을 조회하고 있다.
+
+
+-- ② COALESCE (expr1, expr2, …)
+-- COALESCE 함수는 매개변수로 들어오는 표현식에서 NULL이 아닌 첫 번째 표현식을 반환하는 함수다.
+
+SELECT
+COALESCE(NULL, NULL, NULL),
+COALESCE(NULL, 1, NULL),
+COALESCE(NULL, NULL, 1)
+FROM DUAL;
+
+-- 보충설명 할것
+
+SELECT employee_id, salary, commssion_pct,
+	COALESCE (salary * commsion_pct, salary) AS salary2
+FROM employees;
+
+
+SELECT employee_id, salary, commission_pct,
+           COALESCE (salary * commission_pct, salary) AS salary2
+FROM employees;
+--  ‘급여*커미션’ 값이 NULL이면 salary를, NULL이 아니면 ‘급여*커미션’ 값을 반환하고 있다. NULL과 수식 연산자를 사용해 NULL과 연산을 하면 상대값이 무엇이든 무조건 NULL이 반환된다는 점에 유의하자.
+
+-- ③ LNNVL(조건식)
+-- LNNVL은 매개변수로 들어오는 조건식의 결과가 FALSE
+
+-- ④ NULLIF (expr1, expr2)
+-- NULLIF 함수는 expr1과 expr2을 비교해 같으면 NULL을, 같지 않으면 expr1을 반환한다.
+
+SELECT NULLIF(1, 1), NULLIF(1,2) FROM DUAL;
+
+SELECT TO_CHAR(SYSDATE, 'YYYY') FROM DUAL;
+
+-- job_history 테이블에서 start_date와 end_date의 연도만 추출해 두 연도가 같으면 NULL을, 같지 않으면 종료년도를 출력하는 쿼리다.
+SELECT employee_id,
+           TO_CHAR(start_date, 'YYYY') start_year,
+           TO_CHAR(end_date, 'YYYY') end_year,
+           NULLIF(TO_CHAR(end_date, 'YYYY'), TO_CHAR(start_date, 'YYYY') ) nullif_year
+    FROM job_history;
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+-- 06 | 기타 함수
+-- ① GREATEST(expr1, expr2, …), LEAST(expr1, expr2, …)
+-- GREATEST는 매개변수로 들어오는 표현식에서 가장 큰 값을, LEAST는 가장 작은 값을 반환하는 함수다.
+
+ SELECT GREATEST(1, 2, 3, 2),
+           LEAST(1, 2, 3, 2)
+      FROM DUAL;
+
+-- 숫자 뿐만 아니라 문자도 비교할 수 있다.
+SELECT GREATEST('이순신', '강감찬', '세종대왕'),
+           LEAST('이순신', '강감찬', '세종대왕')
+      FROM DUAL;
+
+-- ② DECODE (expr, search1, result1, search2, result2, …, default)
+-- DECODE는 expr과 search1을 비교해 두 값이 같으면 result1을, 
+-- 같지 않으면 다시 search2와 비교해 값이 같으면 result2를 반환하고, 
+-- 이런 식으로 계속 비교한 뒤 최종적으로 같은 값이 없으면 default 값을 반환한다.
+
+-- 매출 테이블에서 무작위로 9건을 추출해 channel_id가 3, 9인 건은 ‘Direct’, 4, 5인 건은 ‘Indirect’, 나머지는 ‘Others’로 보여주는 쿼리다.
+SELECT prod_id,
+             DECODE(channel_id, 3, 'Direct',
+                                9, 'Direct',
+                                5, 'Indirect',
+                                4, 'Indirect',
+                                   'Others')  decodes
+       FROM sales
+      WHERE rownum < 10;
+
+-- CASE문(SWITCH형) 전환
+SELECT prod_id,
+    CASE channel_id
+WHEN 3 THEN 'Direct'
+WHEN 9 THEN 'Direct'
+WHEN 5 THEN 'Indirect'
+WHEN 4 THEN 'Indirect'
+END AS 'Others'
+FROM sales
+WHERE rownum < 10;
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+# 핵심정리
+1) 자주 사용하는 기능을 구현해 값을 반환하는 것을 함수라 하는데, 오라클에서도 SQL 함수를 제공하고 있다.
+2) 함수는 연산 대상과 그 특성에 따라 크게 숫자 함수, 문자 함수, 날짜 함수, NULL 관련함수, 변환 함수로 나눌 수 있다.
+3) 오라클에서는 두 값이나 표현식의 데이터 타입이 다르면 연산을 수행할 때 일정 규칙에 따라 자동으로 형변환을 처리해주는데 이를 묵시적 형변환이라고 한다. 
+반면 사용자가 직접 형변환을 하는 것을 명시적 형변환이라고 하는데, 변환 함수로 명시적 형변환을 처리할 수 있다.
+4) SQL 함수는 특정 연산을 수행 후 결과를 반환하므로, SELECT 리스트, WHERE 절, INSERT문의 VALUES 절, UPDATE 문의 SET 절 등에서 사용 가능하다.
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+Self-Check
+1. 사원 테이블(employees)에는 phone_number라는 컬럼에 사원의 전화번호가 ‘###.###.####’ 형태로 저장되어 있다. 여기서 처음 세 자리 숫자 대신 서울 지역 번호인 ‘(02)’를 붙여 전화번호를 출력하도록 쿼리를 작성해 보자.
+
+2. 현재일자를 기준으로 사원 테이블의 입사일자(hire_date)를 참조해서 근속년수가 10년 이상인 사원을 다음과 같은 형태의 결과를 출력하도록 쿼리를 작성해 보자(근속년수가 높은 사원 순서대로 결과가 나오도록 하자).
+
+    사원번호 사원명 입사일자 근속년수
+
+3. 고객 테이블(CUSTOMERS)에는 고객 전화번호(cust_main_phone_number)컬럼이 있다. 이 컬럼 값은 ‘###-###-####’ 형태인데, ‘-’ 대신 ‘/’로 바꿔 출력하는 쿼리를 작성해 보자.
+
+4. 고객 테이블(CUSTOMERS)의 고객 전화번호(cust_main_phone_number)컬럼을 다른 문자로 대체(일종의 암호화)하도록 쿼리를 작성해 보자.
+
+5. 고객 테이블(CUSTOMERS)에는 고객의 출생년도(cust_year_of_birth)컬럼이 있다. 현재일자 기준으로 이 컬럼을 활용해 30대, 40대, 50대를 구분해 출력하고, 나머지 연령대는 ‘기타’로 출력하는 쿼리를 작성해 보자.
+
+6. 4번 문제는 30~50대까지만 표시했다. 모든 연령대를 표시하도록 쿼리를 작성하는데, 이번에는 DECODE 대신 CASE 표현식을 사용해 보자.
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+# 수업중 안 나감
+01 | 기본 집계 함수
+4장에서 SQL 함수에 대해 알아봤는데 이번 절에서 살펴볼 집계 함수도 SQL 함수의 일종이다. 집계함수란 대상 데이터를 특정 그룹으로 묶은 다음 이 그룹에 대해 총합, 평균, 최댓값, 최솟값 등을 구하는 함수를 말한다. 그럼 대표적인 집계 함수에 대해 하나씩 살펴 보자.
+
+-- ① COUNT (expr)
+-- COUNT는 쿼리 결과 건수, 즉 전체 로우 수를 반환하는 집계 함수다. 테이블 전체 로우는 물론 WHERE 조건으로 걸러진 로우 수를 반환한다.
+SELECT COUNT(*)  FROM employees;
+
+-- 대부분은 COUNT(*) 형태로 사용하는데, ‘*’ 대신 컬럼명을 넣기도 한다.
+SELECT COUNT(employee_id) FROM employees;
+
+--  DISTINCT를 붙이면 뒤따라 나오는 컬럼에 있는 유일한 값만 조회된다. 
+SELECT COUNT(DISTINCT department_id) FROM employees;
+
+SELECT DISTINCT department_id
+      FROM employees
+     ORDER BY 1;
+
+-- ② SUM(expr)
+-- SUM은 expr의 전체 합계를 반환하는 함수로 매개변수 expr에는 숫자형만 올 수 있다. 사원 테이블에서 급여가 숫자형이므로 전 사원의 급여 총액을 구해 보자.
+
+SELECT SUM(salary) FROM employees;
+
+-- SUM 함수 역시 expr 앞에 DISTINCT가 올 수 있는데, 이때 역시 중복된 급여는 1번만 셈해진 전체 합계를 반환한다.
+SELECT SUM(salary), SUM(DISTINCT salary) FROM employees;
+
+-- ③ AVG(expr)
+-- AVG는 매개변수 형태나 쓰임새는 COUNT, SUM과 동일하며 평균값을 반환한다.
+SELECT AVG(salary), AVG(DISTINCT salary) FROM employees;
+
+-- ④ MIN(expr), MAX(expr)
+-- MIN과 MAX는 각각 최솟값과 최댓값을 반환한다.
+SELECT MIN(salary), MAX( salary) FROM employees;
+
+-- MIN, MAX 함수에서도 DISTINCT를 사용할 수는 있지만, 각각 최솟값과 최댓값을 반환하므로 굳이 DISTINCT를 사용할 필요는 없다.
+SELECT MIN(DISTINCT salary), MAX(DISTINCT salary) FROM employees;
+
+-- ⑤ VARIANCE(expr), STDDEV(expr)
+-- VARIANCE는 분산을, STDDEV는 표준편차를 구해 반환한다. 
+-- 분산이란 주어진 범위의 개별 값과 평균값과의 차이인 편차를 구해 이를 제곱해서 평균한 값을 말하며, 표준편차는 분산 값의 제곱근이다. 
+-- 분산은 제곱한 평균이므로, 실제로 통계에서는 평균을 중심으로 값들이 어느 정도 분포하는지를 나타내는 수치인 표준편차를 지표로 사용한다.
+
+SSELECT VARIANCE(salary), STDDEV(salary) FROM employees;
+-- 쿼리 결과 : 사원 급여의 평균값이 대략 6461이므로, 사원들의 급여는 평균을 기준으로 대략 3909 정도 분포되어 있다고 할 수 있다.
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+-- ▼ 표 2-1 대표적인 데이터베이스 객체
+-- https://thebook.io/006696/0027/
+
+# 테이블 생성 https://thebook.io/006696/0029/
+
+-- 테이블 생성
+/*
+CREATE TABLE [스키마.]테이블명(
+        컬럼1 컬럼1_데이터타입 [NULL, NOT NULL],
+        컬럼2 컬럼2_데이터타입 [NULL, NOT NULL],
+    ...
+    )[TABLESPACE 테이블스페이스명];
+
+/*
+
+그 규칙은 다음과 같다.
+
+❶ 테이블명, 컬럼명의 최대 크기는 30바이트다.
+❷ 테이블명, 컬럼명으로 예약어는 사용할 수 없다.
+(예약어(키워드)란 오라클에서 미리 선점한 단어로 SELECT, UPDATE과 같은 구문, COUNT, ASC와 같은 SQL 함수 등이 있으며, 예약어 목록은 V\$RESERVED_WORDS 시스템 뷰에서 조회할 수 있다)
+❸ 테이블명, 컬럼명으로 문자, 숫자, ‘_’, ‘\$’, ‘#’을 사용할 수 있지만, 첫 글자는 문자만 올 수 있다.
+❹ 한 테이블에 사용 가능한 컬럼은 최대 255개까지다.
+
+*/
+
+
+-- 데이터 타입
+/*
+문자열 데이터타입
+VARCHAR2(10) : 유동길이 최대 10 BYTE 까지 입력.
+CHAR(10) : 고정길이
+*/
+CREATE TABLE ex2_2 (
+        COLUMN1    VARCHAR2(3), → 디폴트 값인 byte 적용
+        COLUMN2    VARCHAR2(3 byte), 
+        COLUMN3    VARCHAR2(3 char) -- 한글, 영문 구분없이 3개 문자 입력.
+    );
