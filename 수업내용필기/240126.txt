@@ -1,0 +1,602 @@
+--⑤ CHECK
+--마지막으로 알아볼 제약조건으로 CHECK가 있다. 
+--컬럼에 입력되는 데이터를 체크해 특정 조건에 맞는 데이터만 입력 받고 그렇지 않으면 오류를 뱉어 낸다.
+
+CREATE TABLE ex2_9 (
+           num1     NUMBER
+           CONSTRAINTS check1 CHECK ( num1 BETWEEN 1 AND 9),
+           gender   VARCHAR2(10)
+           CONSTRAINTS check2 CHECK ( gender IN ('MALE', 'FEMALE'))
+);
+-- 테이블 제약조건 확인
+SELECT constraint_name, constraint_type, table_name, search_condition
+      FROM user_constraints
+     WHERE table_name = 'EX2_9';
+
+INSERT INTO ex2_9 VALUES (10, 'MAN'); -- 에러 발생 ORA-02290: 체크 제약조건(ORA_USER.CHECK2)이 위배되었습니다.
+
+INSERT INTO ex2_9 VALUES (5, 'FEMALE'); -- 성공
+
+/*
+제약조건에는 포함되지 않지만, 컬럼 속성 중 하나로 default라는 것이 있다. 
+이는 컬럼의 디폴트 값을 명시하는데 사용된다. 
+용도 : 테이블에 데이터를 삽입할 때 default 컬럼을 생략하면, default 값이 적용된다.
+*/
+CREATE TABLE ex2_10 (
+           Col1        VARCHAR2(10) NOT NULL, -- insert문 생략 불가능
+           Col2        VARCHAR2(10) NULL, -- null이면 insert문 생략 가능
+           Create_date DATE DEFAULT SYSDATE); -- Insert문 사용시 생략가능
+
+
+INSERT INTO ex2_10 values('aa', 'bb'); -- not enough value
+INSERT INTO ex2_10(col1, col2) values('aa', 'bb'); -- 성공. create_date 컬럼은 default 값이 적용
+INSERT INTO ex2_10(col1, col2, create_date) values('aa', 'bb', SYSDATE); -- 성공. 
+INSERT INTO ex2_10(col1, col2, create_date) values('aa', 'bb', '2024-01-26'); -- 성공 
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+포트폴리오 준비 자료 : https://cafe.naver.com/docjava1/2773
+
+https://www.jogunshop.com/index.html
+
+카테고리 규칙
+-1차
+-2차
+-상품목록
+
+-1차 : 상품목록
+-1차/2차 - 상품목록
+-1차/2차/3차 - 상품목록
+
+1차 테이블
+카테고리 코드
+카테고리 이름
+
+2차 테이블
+- 카테고리 코드
+- 카테고리 이름
+- 1차 테이블참조 카테고리 코드
+
+3차 테이블
+- 카테고리 코드
+- 카테고리 이름
+- 2차 테이블 참조 카테고리 코드
+
+
+카페 게시글 : BOM 테이블 계층 구조
+
+홍길동이 상품 A, B, C, D, E 5종류를 주문.
+
+주문 테이블
+- 주문번호, 주문자, 수령자 정보 등
+주문번호		주문자		수령자
+		홍길동		손흥민
+
+주문 상세 테이블 - 상품 종류 및 수량, 가격 등
+주문번호		상품 번호 	주문수량		주문가격
+1		A		10		15000
+1		B		5		5000
+1		C		7		8000
+1		D		3		5000
+1		E		20		7000
+
+SELECT * FROM 주문상세 WHERE 주문번호 = 1 AND 상품번호 = A;
+DELECT * FROM 주문상세 WHERE 주문번호 = 1 AND 상품번호 = A;
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+CREATE USER spring IDENTIFIED BY spring;
+
+GRANT CONNECT, RESOURCE TO spring;
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+06 | 시퀀스 https://thebook.io/006696/0056/
+시퀀스(Sequence)는 자동 순번을 반환하는 데이터베이스 객체다. 
+
+시퀀스 생성
+    CREATE SEQUENCE [스키마명.]시퀀스명
+    INCREMENT BY 증감숫자
+    START WITH 시작숫자
+    NOMINVALUE | MINVALUE 최솟값
+    NOMAXVALUE | MAXVALUE 최댓값
+    NOCYCLE | CYCLE
+    NOCACHE | CACHE;
+
+• INCREMENT BY 증감숫자: 증감숫자는 0이 아닌 정수. 양수이면 증가, 음수이면 감소. 디폴트 값은 1
+
+• START WITH 시작숫자: 시작숫자의 디폴트 값은 증가일 때는 MINVALUE, 감소일 경우 MAXVALUE.
+
+• NOMINVALUE: 디폴트 값으로 증가일 때 1, 감소의 경우 -(1027 -1).
+
+• MINVALUE 최솟값: 최솟값은 시작숫자와 작거나 같아야 하고 MANVALUE보다 작아야 한다.
+
+• NOMAXVALUE: 디폴트 값으로 증가일 때 1028-1, 감소의 경우 -1.
+
+• MAXVALUE 최댓값: 최댓값은 시작숫자와 같거나 커야 하고 MINVALUE보다 커야 한다.
+
+• NOCYCLE: 디폴트 값으로 최대나 최솟값에 도달하면 생성 중지.
+
+• CYCLE: 증가는 최댓값에 도달하면 다시 최솟값부터 시작, 감소는 최솟값에 도달하면 다시 최댓값에서 시작.
+
+• NOCACHE: 디폴트로 메모리에 시퀀스 값을 미리 할당해 놓지 않으며 디폴트 값은 20.
+
+• CACHE: 메모리에 시퀀스 값을 미리 할당해 놓음.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CREATE SEQUENCE my_seq1
+    INCREMENT BY 1
+    START WITH 1
+    MINVALUE 1
+    MAXVALUE 1000
+    NOCYCLE
+    NOCACHE;
+
+-- MEMBER 테이블에 사용 목적으로 만든 시퀀스
+CREATE SEQUENCE SEQ_MEMBER;
+
+DROP SQUENCE SEQ_MEMBER;
+
+CREATE SEQUENCE SEQ_BOARD;
+
+/*
+시퀀스 명령어
+시퀀스 이름.NEXTVAL; : 다음 진행되는 값을 반환
+시퀀스 이름.CURRVAL; : 현재 값을 반환
+*/
+
+
+SELECT SEQ_BOARD.NEXTVAL FROM DUAL; -- 1씩 증가값
+
+--NEXTVAL 사용하지 않고 먼저 사용하면 오류가 발생
+SELECT SEQ_BOARD.CURRVAL FROM DUAL; -- 처음에 실행하면 에러 발생. 반드시 NEXTVAL 명령어를 먼저 1번은 실행해야 한다.
+
+-- 게시판 테이블
+CREATE TABLE BOARD(
+	IDX NUMBER PRIMARY KEY,
+	TITLE VARCHAR2(100) NOT NULL,
+	CONTENT VARCHAR2(4000) NOT NULL,
+	WRITER VARCHAR2(100) NOT NULL,
+	REG_DATE DATE DEFAULT SYSDATE
+);
+
+INSERT INTO BOARD(idx, title, content, writer) values (SEQ_BOARD.NEXTVAL, '게시판 연습', '스프링 구현', 'user01');
+
+/*
+03 | 뷰 https://thebook.io/006696/0046/
+뷰View는 하나 이상의 테이블이나 다른 뷰의 데이터를 볼 수 있게 하는 데이터베이스 객체다.
+실제 데이터는 뷰를 구성하는 테이블에 담겨 있지만 마치 테이블처럼 사용할 수 있다. 
+*/
+
+
+/*
+뷰 생성
+    CREATE OR REPLACE VIEW [스키마.]뷰명 AS
+    SELECT 문장;
+*/
+
+-- 사원 테이블에서 급여가 5000 이상인 데이터를 조회하는 기능
+
+CREATE OR REPLACE VIEW EMP_SALES_5000_VW
+AS
+SELECT employee_id, emp_name, hire_date, salary from employee
+where salary >= 5000;
+
+-- 뷰를 사용
+SELECT * FROM EMP_SALES_5000_VW;
+
+-- 뷰를 이용하여 데이터 작업은 가능
+-- 뷰는 반복적으로 사용가능 긴 문장의 SELECT 문
+-- 뷰는 보안 목적으로 컬럼을 숨길 때 사용
+
+CREATE OR REPLACE VIEW EMP_NO_SALARY
+AS
+SELECT employee_id, EMP_NAME, EMAIL, PHONE_NUMBER, HIRE_DATE
+FROM EMPLOYEE;
+
+-- 뷰를 사용
+SELECT * FROM EMP_NO_SALARY;
+
+-- 뷰 삭제
+-- DROP VIEW [스키마.]뷰명;
+
+DROP VIEW EMP_NO_SALARY;
+
+04 | 인덱스
+인덱스Index는 테이블에 있는 데이터를 빨리 찾기 위한 용도의 데이터베이스 객체다. 
+책을 볼 때 특정 내용을 빨리 찾기 위해 맨 뒤에 있는 찾아보기 항목을 사용해 본 적이 있을 텐데, 이 찾아보기 부분이 인덱스라고 생각하면 된다. 
+
+-- 테이블이 PRIMARY KEY를 생성하면, 인덱스가 자동생성된다.
+
+SELECT * FROM BOARD WHERE IDX = 1; -- 조건식이 사용하는 PRIMARY KEY 적용 컬럼이 인덱스가 존재하여, 검색 속도가 빨라지는 효과가 있다.
+DELECT FROM BOARD WHERE IDX = 1;
+UPDATE BOARD SET TITLE = '제목수정' WHERE IDX = 1;
+
+-- 인덱스는 테이블에 있는 한 개 이상의 컬럼으로 만들 수 있다. 인덱스는 테이블에 있는 한 개 이상의 컬럼으로 만들 수 있다.
+
+/*
+CREATE[UNIQUE] INDEX [스키마명.]인덱스명
+    ON [스키마명.]테이블명(컬럼1, 컬럼2, ...);
+*/
+
+CREATE UNIQUE INDEX ex2_10_ix01
+    ON ex4210 (col11);
+
+#인덱스를 생성할 때 고려해야 할 사항
+
+❶ 일반적으로 테이블 전체 로우 수의 15%이하의 데이터를 조회할 때 인덱스를 생성한다
+물론 15%는 정해진 것은 아니며 테이블 건수, 데이터 분포 정도에 따라 달라진다.
+
+❷ 테이블 건수가 적다면(코드성 테이블) 굳이 인덱스를 만들 필요가 없다
+데이터 추출을 위해 테이블이나 인덱스를 탐색하는 것을 스캔(scan)이라고 하는데, 테이블 건수가 적으면 인덱스를 경유하기보다 테이블 전체를 스캔하는 것이 빠르다.
+
+❸ 데이터의 유일성 정도가 좋거나 범위가 넓은 값을 가진 컬럼을 인덱스로 만드는 것이 좋다
+
+❹ NULL이 많이 포함된 컬럼은 인덱스 컬럼으로 만들기 적당치 않다
+
+❺ 결합 인덱스를 만들 때는, 컬럼의 순서가 중요하다
+보통, 자주 사용되는 컬럼을 순서상 앞에 두는 것이 좋다.
+
+❻ 테이블에 만들 수 있는 인덱스 수의 제한은 없으나, 너무 많이 만들면 오히려 성능 부하가 발생한다
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+5장
+-- 01 | 기본 집계 함수
+-- 집계함수란 대상 데이터를 특정 그룹으로 묶은 다음 이 그룹에 대해 총합, 평균, 최댓값, 최솟값 등을 구하는 함수를 말한다. 
+
+-- ① COUNT (expr)
+-- COUNT는 쿼리 결과 건수, 즉 전체 로우 수를 반환하는 집계 함수다. 
+-- 테이블 전체 로우는 물론 WHERE 조건으로 걸러진 로우 수를 반환한다.
+
+SELECT COUNT(*) FROM employees; -- 107건
+SELECT COUNT(*) FROM departments; -- 27건
+
+SELECT COUNT(employee_id) FROM employees; -- 107건 employee_id PRIMARY KEY 컬럼
+SELECT COUNT(department_id) FROM employees; -- 106건 일반 컬럼 DEPARTMENT_ID NULL 허용
+
+DESC employees;
+
+SELECT department_id FROM employees;
+SELECT DISTINCT department_id FROM employees;
+
+SELECT DISTINCT A, B, C FROM 테이블;
+
+SELECT COUNT(DISTINCT department_id)
+FROM employees;
+
+/*
+② SUM(expr)
+SUM은 expr의 전체 합계를 반환하는 함수로 매개변수 expr에는 숫자형만 올 수 있다. 
+*/
+
+-- 사원 테이블에서 급여가 숫자형이므로 전 사원의 급여 출력을 구해보자
+SELECT SUM(salary) FROM employees;
+
+SELECT SUM(salary), SUM(DISTINCT salary) FROM employees;
+
+/*
+③ AVG(expr)
+AVG는 매개변수 형태나 쓰임새는 COUNT, SUM과 동일하며 평균값을 반환한다.
+*/
+
+SELECT AVG(salary), AVG(DISTINCT salary) FROM employees;
+
+/*
+④ MIN(expr), MAX(expr)
+MIN과 MAX는 각각 최솟값과 최댓값을 반환한다.
+*/
+
+SELECT MIN(salary), MAX( salary) FROM employees;
+SELECT MIN(DISTINCT salary), MAX(DISTINCT salary) FROM employees;
+
+/*
+GROUP BY 결과 HAVING 절
+집계함수 SUM, AVG, MAX, MIN, COUNT
+*/
+
+-- 사원테이블에서 각 부서별 급여의 총액을 조회하라
+    SELECT department_id, SUM(salary)
+      FROM employees
+     GROUP BY department_id
+     ORDER BY department_id;
+
+SELECT SUM(SALARY) FROM employees
+GROUP BY DEPARTMENT_ID
+ORDER BY DEPARTMENT_ID;
+
+--SELECT문의 컬럼은 GROUP BY 대상 컬럼명, 집계함수만이 올 수가 있다. 다른 컬럼명은 사용하면 에러.
+SELECT DEPARTMENT_ID, SUM(SALARY) FROM employees
+GROUP BY DEPARTMENT_ID;
+
+SELECT EMPLOYEE_ID, DEPARTMENT_ID, SUM(SALARY) FROM employees
+GROUP BY DEPARTMENT_ID; -- EMPLOYEE_ID 컬럼명 때문에 에러가 발생.
+
+-- 각 부서별 사원수와 총급여액을 조회하라.
+SELECT DEPARTMENT_ID, COUNT(*), SUM(SALARY) FROM employees
+GROUP BY DEPARTMENT_ID;
+
+-- 정렬
+SELECT DEPARTMENT_ID, COUNT(*), SUM(SALARY) FROM employees
+GROUP BY DEPARTMENT_ID
+GROUP BY DEPARTMENT_ID ASC; -- DESC 내림차순 ASC 오름차순
+
+-- 조건식 WHERE
+SELECT DEPARTMENT_ID, COUNT(*), SUM(SALARY) FROM employees
+WHERE DEPARTMENT_ID != 50
+GROUP BY DEPARTMENT_ID
+ORDER BY DEPARTMENT_ID ASC;
+
+-- KOR_LOAN_STATUS 테이블
+SELECT * FROM kor_loan_status;
+SELECT COUNT(*) FROM kor_loan_status;
+
+/*
+kor_loan_status 테이블에는 월별, 지역별 가계대출 잔액(단위는 십억)이 들어 있고, 
+대출유형(gubun)은 ‘주택담보대출’과 ‘기타대출’ 두 종류만 존재한다. 
+그럼 2013년 지역별 가계대출 총 잔액을 구해 보자.
+*/
+
+DESC kor_loan_status; -- 테이블 구조 정보 확인
+
+SELECT period, region, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period LIKE '2013%'
+     GROUP BY period, region
+     ORDER BY period, region;
+
+SELECT period, region, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period = '201311'
+     GROUP BY period, region 
+    HAVING SUM(loan_jan_amt) > 100000
+    ORDER BY region;
+
+-- group by period, gubun or group by period or 전체
+
+SELECT period, gubun, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period LIKE '2013%'
+     GROUP BY period, gubun
+     ORDER BY period;
+
+    SELECT period, gubun, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period LIKE '2013%'
+     GROUP BY ROLLUP(period, gubun);
+
+
+    SELECT period, gubun, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period LIKE '2013%' ' -- 2+1 레벨
+     GROUP BY period, ROLLUP( gubun );
+
+
+    SELECT period, gubun, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period LIKE '2013%
+     GROUP BY ROLLUP(period), gubun ;
+
+/*
+CUBE(expr1, expr2, …)
+
+CUBE는 ROLLUP과 비슷하나 개념이 약간 다르다. 
+ROLLUP이 레벨별로 순차적 집계를 했다면, CUBE는 명시한 표현식 개수에 따라 가능한 모든 조합별로 집계한 결과를 반환한다. 
+CUBE는 2의(expr 수)제곱 만큼 종류별로 집계 된다. 
+예를 들어, expr 수가 3이면, 집계 결과의 유형은 총 2^3^ = 8개가 된다.
+*/
+
+SELECT period, gubun, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period LIKE '2013%'
+     GROUP BY CUBE(period, gubun) ; -- 2^2 	2의 2승 = 4
+
+/*
+group by period, gubun
+group by period
+group by gubun
+전체
+*/
+
+-- group by expr1, cube(expr2, expr3)로 명시했을 때,
+-- (expr1, expr2, expr3), (expr1, expr2), (expr1, expr3), (expr1) 총 4가지 (2^2^) 유형으로 집계된다
+
+SELECT period, gubun, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period LIKE '2013%'
+     GROUP BY CUBE(period, gubun) ; -- 2의 1 컬럼수 - 2
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+집합 연산자
+여러 개의 SELECT문을 연결해 또 다른 하나의 쿼리를 만드는 역할을 하는 것이 집합 연산자다. 
+집합 연산자는 학창 시절 배웠던 집합, 즉 합집합, 교집합, 차집합, 여집합과 개념이 같다. 
+
+UNION
+UNON은 합집합을 의미한다. 
+ 두 개의 데이터 집합이 있으면 각 집합 원소(SELECT 결과)를 모두 포함한 결과가 반환된다.
+
+
+#쿼리문 1 - exp_goods_asia 테이블을 생성해 한국과 일본의 주요 10대 수출품을 입력
+
+CREATE TABLE exp_goods_asia (
+           country VARCHAR2(10),
+           seq     NUMBER,
+           goods   VARCHAR2(80));
+
+    INSERT INTO exp_goods_asia VALUES ('한국', 1, '원유제외 석유류');
+    INSERT INTO exp_goods_asia VALUES ('한국', 2, '자동차');
+    INSERT INTO exp_goods_asia VALUES ('한국', 3, '전자집적회로');
+    INSERT INTO exp_goods_asia VALUES ('한국', 4, '선박');
+    INSERT INTO exp_goods_asia VALUES ('한국', 5,  'LCD');
+    INSERT INTO exp_goods_asia VALUES ('한국', 6,  '자동차부품');
+    INSERT INTO exp_goods_asia VALUES ('한국', 7,  '휴대전화');
+    INSERT INTO exp_goods_asia VALUES ('한국', 8,  '환식탄화수소');
+    INSERT INTO exp_goods_asia VALUES ('한국', 9,  '무선송신기 디스플레이 부속품');
+    INSERT INTO exp_goods_asia VALUES ('한국', 10,  '철 또는 비합금강');
+
+    INSERT INTO exp_goods_asia VALUES ('일본', 1, '자동차');
+    INSERT INTO exp_goods_asia VALUES ('일본', 2, '자동차부품');
+    INSERT INTO exp_goods_asia VALUES ('일본', 3, '전자집적회로');
+    INSERT INTO exp_goods_asia VALUES ('일본', 4, '선박');
+    INSERT INTO exp_goods_asia VALUES ('일본', 5, '반도체웨이퍼');
+    INSERT INTO exp_goods_asia VALUES ('일본', 6, '화물차');
+    INSERT INTO exp_goods_asia VALUES ('일본', 7, '원유제외 석유류');
+    INSERT INTO exp_goods_asia VALUES ('일본', 8, '건설기계');
+    INSERT INTO exp_goods_asia VALUES ('일본', 9, '다이오드, 트랜지스터');
+    INSERT INTO exp_goods_asia VALUES ('일본', 10, '기계류');
+
+#쿼리문 2 - 한국과 일본의 수출품을 조회한 쿼리다.
+SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국'
+     ORDER BY seq;
+
+SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '일본'
+     ORDER BY seq;
+
+쿼리문3 - 합집합 개념이 적용되어 데이터가 추출
+- exp_goods_asia 테이블에는 한국, 일본별로 수출품이 10개씩 총 20건이 등록되어 있는데, 자동차나 선박 등 겹쳐 있는 5개 품목은 단 한 번만 조회되었다. 
+SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국'
+    UNION
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '일본';
+-- 실제결과 15건
+
+-- UNION ALL
+-- UNION ALL은 UNION과 비슷한데 한 가지 다른 것은 중복된 항목도 모두 조회된다는 점이다.
+
+-- 동일한 데이터의 중복제거 작업을 하지 않고 모두 출력된다.
+SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국'
+    UNION ALL
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '일본';
+
+-- 질문 : union (중복검사) or union all(중복검사 없다) 둘 중에 성능이 어떤 게 좋을까? union all 권장
+
+-- INTERSECT
+-- INTERSECT는 합집합이 아닌 교집합을 의미한다. 즉 데이터 집합에서 공통된 항목만 추출해 낸다.
+
+-- 한국, 일본이 경쟁 대상에 해당하는 수출 품목
+SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국'
+    INTERSECT
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '일본';
+
+-- MINUS
+-- MINUS는 차집합을 의미한다. 즉 한 데이터 집합을 기준으로 다른 데이터 집합과 공통된 항목을 제외한 결과만 추출해 낸다.
+
+-- 한국만 수출하는 품목
+SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국'
+     MINUS
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '일본';
+
+-- 일본만 수출하는 항목
+SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '일본'
+     MINUS
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국';
+
+집합 연산자의 제한사항
+① 집합 연산자로 연결되는 각 SELECT문의 SELECT 리스트의 개수와 데이터타입은 일치해야 한다
+
+-- 컬럼 개수가 일치하지 않는다.
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국'
+     UNION
+    SELECT seq, goods
+      FROM exp_goods_asia
+     WHERE country = '일본';
+
+=> SQL 오류: ORA-01789: 질의 블록은 부정확한 수의 결과 열을 가지고 있습니다.
+
+
+-- 타입이 일치하지 않는다.
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국'
+     UNION
+    SELECT seq
+      FROM exp_goods_asia
+     WHERE country = '일본';
+
+-- ② 집합 연산자로 SELECT 문을 연결할 때 ORDER BY절은 맨 마지막 문장에서만 사용할 수 있다
+
+
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국'
+     ORDER BY goods -- 에러 발생
+     UNION
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '일본';
+
+=>   SQL 오류: ORA-00933: SQL 명령어가 올바르게 종료되지 않았습니다.
+
+-- 위의 구문이 에러 발생
+
+SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '한국'
+     UNION
+    SELECT goods
+      FROM exp_goods_asia
+     WHERE country = '일본'
+      ORDER BY goods; -- 위의 union의 합친 결과에 대하여 정렬이 사용된다.
+
+-- ③ BLOB, CLOB, BFILE 타입의 컬럼에 대해서는 집합 연산자를 사용할 수 없다
+-- ④ UNION, INTERSECT, MINUS 연산자는 LONG형 컬럼에는 사용할 수 없다
+
+/*
+GROUPING SETS 절
+GROUPING SETS은 ROLLUP이나 CUBE처럼 GROUP BY 절에 명시해서 그룹 쿼리에 사용되는 절이다. 
+*/
+
+/*
+예를 들어, GROUPING SETS (expr1, expr2, expr3)를 GROUP BY 절에 명시했을 때, 괄호 안에 있는 세 표현식별로 각각 집계가 이루어진다.
+즉 쿼리 결과는 ((GROUP BY expr1) UNION ALL (GROUP BY expr2) UNION ALL (GROUP BY expr3)) 형태가 된다.
+*/
+
+-- GROPUPING SETS 절에 period, gubun을 명시해서 월별 합계, 대출 종류별 합계만 집계되어 조회되었다.
+SELECT period, gubun, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period LIKE '2013%'
+     GROUP BY GROUPING SETS(period, gubun); --  GROUP BY period union all GROUP BY gubun
+
+
+    SELECT period, gubun, region, SUM(loan_jan_amt) totl_jan
+      FROM kor_loan_status
+     WHERE period LIKE '2013%'
+       AND region IN ('서울', '경기')
+     GROUP BY GROUPING SETS(period, (gubun, region)); -- GROUP BY period union all GROUP BY gubun, region
+
+-- 조인(동등조인)
+-- oracle join 
+
+    SELECT a.employee_id, a.emp_name, a.department_id, b.department_name
+      FROM employees a,
+           departments b
+     WHERE a.department_id = b.department_id; -- 106건
+
+-- ansi join 
+SELECT department_id, department_name
+      FROM departments a
+     WHERE a.department_id  IN ( SELECT b.department_id
+                                   FROM employees b
+                                  WHERE b.salary > 3000)
+    ORDER BY department_name;
+
