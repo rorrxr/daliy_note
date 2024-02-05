@@ -1,0 +1,26 @@
+git flow
+- git flow에서 develop 브랜치를 사용하지 않고 feature 브랜치만 사용하여 개발하였다
+
+how to work web
+
+웹브라우저(크롬.exe) --- www.naver.com ---> DNS Service on DNS Sever ---> 123.456.789.123 ---> 웹서버(httpd.exe)
+웹브라우저 --- 요청(Request)---> 웹서버
+	<--- 응답(Response) ---
+	웹페이지(index.html)
+
+how to work web, detail
+
+네이버 사이트 <--> hostLaptop or PC (C:\Windows\System32\drivers\etx\host) ---> DNS ---> 아파치
+
+html content/ css 프레젠테이션 / js 
+
+미디어쿼리 반응형웹
+적응형 웹/반응형 웹
+적응형 웹 : pc, 테블릿, 폰 사이즈마다 각자 사이즈별로 직접 각각 만드는 것을 뜻한다.
+반응형 웹 : pc, 테블릿, 폰마다 알아서 화면이 적용되는 것을 뜻한다.
+
+javascript framework 현황
+
+cmd에서 nslookup-> dns 주소 -> ip address
+
+도메인을 살 경우에 "닷홈"에서 살 것
